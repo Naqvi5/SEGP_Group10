@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -56,6 +57,20 @@ public class FXMLController implements Initializable{
 
     @FXML
     private BorderPane boderpane;
+    
+    
+    //hbox tabs
+    @FXML
+    private HBox hboxTabs;
+
+    @FXML
+    private JFXButton tab1PatsInfo;
+
+    @FXML
+    private JFXButton Tab2AddPat;
+
+    @FXML
+    private JFXButton tab3AllocatedStd;
 
 
 	@Override
