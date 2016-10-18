@@ -3,7 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="drawerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="235.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="drawerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="230.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLController">
    <children>
       <JFXButton fx:id="patBt" prefHeight="70.0" prefWidth="235.0" text="PAT's" VBox.vgrow="ALWAYS" />
       <JFXButton fx:id="studentBt" layoutX="10.0" layoutY="10.0" prefHeight="70.0" prefWidth="235.0" text="Student" VBox.vgrow="ALWAYS" />

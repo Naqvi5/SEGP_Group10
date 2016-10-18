@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="patsInformationPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="controller.FXMLController">
+   <children>
+      <JFXButton fx:id="viewAssignStudentButton" layoutX="407.0" layoutY="346.0" prefHeight="40.0" prefWidth="180.0" text="View Assign Students" />
+      <Label layoutX="81.0" layoutY="81.0" text="Email" />
+      <Label layoutX="79.0" layoutY="121.0" text="Office No" />
+      <Label layoutX="81.0" layoutY="151.0" text="Load" />
+      <Label layoutX="79.0" layoutY="184.0" text="Department" />
+      <JFXButton fx:id="editInfoButton" layoutX="295.0" layoutY="273.0" text="Edit Info" />
+      <Label fx:id="setEmail" layoutX="273.0" layoutY="79.0" text="email" />
+      <Label fx:id="setOfficeNo" layoutX="274.0" layoutY="121.0" text="23" />
+      <Label fx:id="setLoad" layoutX="273.0" layoutY="153.0" text="patial" />
+      <Label fx:id="setDepartment" layoutX="272.0" layoutY="180.0" text="ComputerScience" />
+   </children>
+</AnchorPane>

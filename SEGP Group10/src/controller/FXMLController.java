@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -64,6 +65,12 @@ public class FXMLController implements Initializable{
     private HBox hboxTabs;
 
     @FXML
+    private HBox hboxTab;
+
+    @FXML
+    private JFXDrawer drawerTab;
+
+    @FXML
     private JFXButton tab1PatsInfo;
 
     @FXML
@@ -71,28 +78,66 @@ public class FXMLController implements Initializable{
 
     @FXML
     private JFXButton tab3AllocatedStd;
+    
+    //Pats Information pane
+    @FXML
+    private AnchorPane patsInformationPane;
 
+    @FXML
+    private JFXButton viewAssignStudentButton;
 
+    @FXML
+    private JFXButton editInfoButton;
+
+    @FXML
+    private Label setEmail;
+
+    @FXML
+    private Label setOfficeNo;
+
+    @FXML
+    private Label setLoad;
+
+    @FXML
+    private Label setDepartment;
+
+    
+    
+    //hamburger buttons listener
+   
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
 			boderpane.setMinSize(600,400);
+			
 			VBox drawerBox = FXMLLoader.load(getClass().getResource("../gui/drawer.fxml"));
 			drawer.setSidePane(drawerBox);
-		
-		
-		HamburgerBasicCloseTransition burgerClose = new HamburgerBasicCloseTransition(hamburger);
-		burgerClose.setRate(-1);
-		hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
-			burgerClose.setRate(burgerClose.getRate()*-1);
-			burgerClose.play();
 			
-			if(drawer.isShown())
-				drawer.close();
-			else
-				drawer.open();
+			HBox tabBox = FXMLLoader.load(getClass().getResource("../gui/tabs.fxml"));
+			drawerTab.setSidePane(tabBox);
 			
-		});
+			patBt.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
+				if(drawerTab.isShown())
+					drawerTab.close();
+				else
+					drawerTab.open();
+					
+			});
+			
+			//Hamburger listener
+			HamburgerBasicCloseTransition burgerClose = new HamburgerBasicCloseTransition(hamburger);
+			burgerClose.setRate(-1);
+			hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
+				burgerClose.setRate(burgerClose.getRate()*-1);
+				burgerClose.play();
+				
+				if(drawer.isShown())
+					drawer.close();
+				else
+					drawer.open();
+				
+			});
+			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
