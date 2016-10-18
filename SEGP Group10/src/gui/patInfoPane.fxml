@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="67.0" layoutY="65.0" prefHeight="35.0" prefWidth="120.0" text="Email" AnchorPane.leftAnchor="67.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="282.0" layoutY="65.0" text="adil@" AnchorPane.leftAnchor="282.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="68.0" layoutY="120.0" prefHeight="35.0" prefWidth="120.0" text="Contact" AnchorPane.leftAnchor="67.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="283.0" layoutY="120.0" text="0303" AnchorPane.leftAnchor="282.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="68.0" layoutY="170.0" prefHeight="35.0" prefWidth="120.0" text="Office No" AnchorPane.leftAnchor="67.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="282.0" layoutY="170.0" text="0459" AnchorPane.leftAnchor="282.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="68.0" layoutY="231.0" prefHeight="36.0" prefWidth="120.0" text="Student Load" AnchorPane.leftAnchor="67.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="280.0" layoutY="223.0" text="Full" AnchorPane.leftAnchor="282.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="68.0" layoutY="277.0" prefHeight="35.0" prefWidth="120.0" text="Department" AnchorPane.leftAnchor="67.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="274.0" layoutY="277.0" text="Computer Science" AnchorPane.leftAnchor="282.0">
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+      <JFXButton layoutX="242.0" layoutY="337.0" prefWidth="100.0" text="Edit" />
+      <JFXButton layoutX="352.0" layoutY="337.0" prefWidth="100.0" text="Add Pat" />
+      <Label layoutX="420.0" layoutY="363.0" prefHeight="30.0" prefWidth="160.0" text="  View Assign Students " wrapText="true" />
+   </children>
+</AnchorPane>
