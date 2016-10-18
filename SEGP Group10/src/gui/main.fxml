@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< HEAD
 <BorderPane fx:id="borderpane" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
    <left>
       <JFXDrawer fx:id="drawer" defaultDrawerSize="200.0" prefHeight="546.0" prefWidth="156.0" BorderPane.alignment="CENTER" />
@@ -19,6 +20,24 @@
                </children>
                
                   </HBox>
+=======
+<BorderPane fx:id="boderpane" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLController">
+   <left>
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="200.0" prefHeight="503.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <VBox prefHeight="100.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="putInHamburger" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #42A5F5;">
+               <children>
+                  <JFXHamburger fx:id="hamburger" prefHeight="100.0" prefWidth="100.0" />
+               </children></HBox>
+            <HBox fx:id="hboxTab" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <JFXDrawer fx:id="drawerTab" />
+               </children>
+            </HBox>
+>>>>>>> 9d222ea11f4aafbdefa48fd20a7bd72657ba5efe
          </children>
       </VBox>
    </top>

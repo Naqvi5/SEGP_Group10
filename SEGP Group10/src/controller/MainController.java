@@ -6,6 +6,7 @@ package controller;
  */
 
 
+<<<<<<< HEAD
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
@@ -17,6 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+=======
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+>>>>>>> 9d222ea11f4aafbdefa48fd20a7bd72657ba5efe
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +32,7 @@ import javafx.stage.Stage;
  */
 public class MainController extends Application {
     
+<<<<<<< HEAD
     
     private MainWindowController mainWindowController;
     private FXMLLoader loader;
@@ -38,6 +46,13 @@ public class MainController extends Application {
 		
         BorderPane borderPane = mainWindowController.getBorderPane();
         Scene scene = new Scene(borderPane);
+=======
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../gui/main.fxml"));
+        
+        Scene scene = new Scene(root);
+>>>>>>> 9d222ea11f4aafbdefa48fd20a7bd72657ba5efe
         
         stage.setScene(scene);
         stage.show();
