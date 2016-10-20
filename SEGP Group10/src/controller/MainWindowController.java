@@ -8,7 +8,8 @@
 
     import com.jfoenix.controls.JFXDrawer;
     import com.jfoenix.controls.JFXHamburger;
-    import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
+import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
+import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
     import java.io.IOException;
     import java.net.URL;
     import java.util.ResourceBundle;
@@ -53,7 +54,7 @@
             drawerController = loader.getController();
             drawer.setSidePane(drawerController.getDrawerPane());
 
-            HamburgerBasicCloseTransition burgerClose = new HamburgerBasicCloseTransition(hamburger);
+            HamburgerBackArrowBasicTransition burgerClose = new HamburgerBackArrowBasicTransition(hamburger);
             burgerClose.setRate(-1);
             hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
                 burgerClose.setRate(burgerClose.getRate() * -1);

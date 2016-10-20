@@ -8,10 +8,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="103.0" layoutY="83.0" text="Name" AnchorPane.leftAnchor="97.0" />
+      <Label layoutX="103.0" layoutY="83.0" text="Contact" AnchorPane.leftAnchor="97.0" />
       <JFXTextField layoutX="276.0" layoutY="73.0" AnchorPane.leftAnchor="276.0" />
       <Label layoutX="97.0" layoutY="128.0" text="Office No" AnchorPane.leftAnchor="97.0" />
       <JFXTextField layoutX="276.0" layoutY="116.0" AnchorPane.leftAnchor="276.0" />
