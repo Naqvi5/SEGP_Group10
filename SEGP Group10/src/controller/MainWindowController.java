@@ -6,23 +6,19 @@
      * and open the template in the editor.
      */
 
+import Drawer.DrawerController;
     import com.jfoenix.controls.JFXDrawer;
     import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
+import com.jfoenix.controls.JFXTabPane;
+    import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
     import java.io.IOException;
     import java.net.URL;
     import java.util.ResourceBundle;
-    import javafx.application.Application;
-    import static javafx.application.Application.launch;
     import javafx.fxml.FXML;
     import javafx.fxml.FXMLLoader;
     import javafx.fxml.Initializable;
-    import javafx.scene.Scene;
     import javafx.scene.input.MouseEvent;
     import javafx.scene.layout.BorderPane;
-    import javafx.scene.layout.VBox;
-    import javafx.stage.Stage;
 
     /**
      *
@@ -34,10 +30,13 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
         private JFXHamburger hamburger;
 
         @FXML
-        private BorderPane borderpane;
+        private BorderPane borderPane;
 
         @FXML
         private JFXDrawer drawer;
+        
+        @FXML
+        private JFXTabPane tabPane;
 
         private DrawerController drawerController;
         private FXMLLoader loader;
@@ -45,16 +44,17 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
         @Override
         public void initialize(URL location, ResourceBundle resources) {
 
-            loader = new FXMLLoader(getClass().getResource("../gui/drawer.fxml"));
+            loader = new FXMLLoader(getClass().getResource("../Drawer/drawer.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
 
             }
             drawerController = loader.getController();
+            drawerController.setTabPane(tabPane);
             drawer.setSidePane(drawerController.getDrawerPane());
 
-            HamburgerBackArrowBasicTransition burgerClose = new HamburgerBackArrowBasicTransition(hamburger);
+            HamburgerBasicCloseTransition burgerClose = new HamburgerBasicCloseTransition(hamburger);
             burgerClose.setRate(-1);
             hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
                 burgerClose.setRate(burgerClose.getRate() * -1);
@@ -70,7 +70,7 @@ import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
         }
 
         public BorderPane getBorderPane() {
-            return borderpane;
+            return borderPane;
         }
 
     }
