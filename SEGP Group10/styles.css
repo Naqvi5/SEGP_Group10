@@ -1,142 +1,104 @@
 .root {
-  /*  -fx-text-base-color: rgb(252.0, 240.0, 237.0);
-    -fx-text-fill: -fx-text-base-color;
-    */ 
-     -dark: #313337;
-     -fx-background-color: -dark;
-    
-    /*default font */
-    -fx-font-family: 'Helvetica Neue';
-    -fx-font-size: 12.0px;
-    -fx-font-weight: 600;
-    
-    
-    -flatter-orange: #f58026;
-    -flatter-red: rgb(237.0, 68.0, 37.0);
-    -flatter-blue: rgb(0.0, 184.0, 222.0);
-    
-    
+	    /*default font */
+	    -fx-font-family: 'Helvetica Neue';
+	    -fx-font-size: 12.0px;
+	    -fx-font-weight: 600;
 }
-
-
 /*******************************************************************************
  *                                                                             *
  * Label                                                                       *
  *                                                                             *
  ******************************************************************************/
-
 .label {
-	
-   /*-fx-text-fill: derive(#66b3ff,80%);*/
-    -fx-font-size: 14.0px;
-    -fx-font-family: 'Helvetica Neue';
-    -fx-font-weight:bold;
+	    -fx-font-size: 14.0px;
+	    -fx-font-family: 'Helvetica Neue';
+	    -fx-font-weight:bold;
 }
- 
-
+/*
+.label:hover{
+		-fx-background-color:derive(#4CAF50,10.0%);
+}
+.label:focused,
+.label:default:focused{
+		-fx-background-color: derive(#4CAF50,30.0%);
+}
+*/
 
 /*******************************************************************************
  *                                                                             *
- * Button                                                      *
+ * Button                                                                      *
  *                                                                             *
  ******************************************************************************/
- 
 .button{
-		 
-		
 	    -fx-background-insets:  0.0;
 	    -fx-background-radius: 2.0;
-	    /*-fx-background-color: derive(#004D40,90%); */
-	    -fx-background-color:derive(#2a2a2a,40%);
 	    -fx-font-size: 14.0px;
 	    -fx-font-weight: bold;
 	    -fx-font-family: 'Helvetica Neue';
-	    -fx-text-fill: derive(#66b3ff,80%);
-	    -fx-font-color:-white;
 	    -fx-alignment: CENTER;
-    
 }
 .button:hover{
-	-fx-background-color:derive(#2a2a2a,60%);
+		-fx-background-color:derive(#4CAF50,10.0%);
 }
 .button:focused,
 .button:default:focused {
-       -fx-background-color: derive(#2a2a2a,80%);
+       -fx-background-color: derive(#4CAF50,30.0%);
 }
-
-
+/*******************************************************************************
+ *                                                                             *
+ * TextField                      				                               *
+ *                                                                             *
+ ******************************************************************************/
  
 /*******************************************************************************
  *                                                                             *
- * TextField & TextArea                                                        *
+ * ScrollBar 			                                                       *
  *                                                                             *
  ******************************************************************************/
 
-.text-field {
-
-	-fx-font-family: 'Helvetica Neue';
-    -fx-background-color: derive(#2a2a2a,60%);
-    -fx-background-insets:  0.0;
-    -fx-background-radius: 2.0;
-    -fx-padding: 0.7em;
-    -fx-border-width: 0.0;
-    -fx-prompt-text-fill: derive(#2a2a2a,80%);
-    -fx-highlight-fill: rgb(94.0, 203.0, 234.0);
-    -fx-text-fill: derive(#66b3ff,80%);
-}
-
-.text-field:focused  .content {
-     -fx-background-color: derive(#2a2a2a,100%);
-}
-
-.text-field:focused {
-    -fx-background-color: derive(#2a2a2a,100%);
-    -fx-background-insets: 0.0, 0.2em;
-    -fx-background-radius: 2.0;
-}
-
 .scroll-bar:vertical > .track-background,
 .scroll-bar:horizontal > .track-background{
-    -fx-background-color: transparent;
-    -fx-background-insets: 0.0;
+    	-fx-background-color:#ffffff;
 }
 
 .scroll-bar:vertical > .thumb,
 .scroll-bar:horizontal > .thumb {
-    -fx-background-color: derive(#2a2a2a,60%);
-    -fx-background-insets: 0.0;
-    -fx-background-radius: 0.0;
+	    -fx-background-color: derive(#4CAF50,5.0%);
+	    -fx-background-insets: 0.0;
+	    -fx-background-radius: 0.0;
 }
 
 .scroll-bar:hover > .increment-button, 
 .scroll-bar:hover > .decrement-button {
-    -fx-background-color: transparent;
-}
-
-.scroll-bar > .track-background{
-    -fx-background-color:transparent;
+     	-fx-background-color: derive(#4CAF50,30.0%);
 }
   
-/*This is the tabs colors */
- .tab{
- 	-fx-text-fill: derive(#66b3ff,80%);
- 	-fx-background-color:derive(#2a2a2a,40%);
- 	-fx-border-color: gray;
- 	-fx-border-radius: 10;
- 	-fx-spacing: 5;
- }
- .tab:focused,
- .tab:default:focused{
- 	-fx-background-color:derive(#2a2a2a,40%);
- 	}
- /*this is the tab content colors */
- .tab-content-area{
-	-fx-text-fill: derive(#66b3ff,80%);
- 	/*-fx-background-color: derive(#004D40,100%);*/
- 	-fx-background-color: #222c36;
- 	-fx-padding: 0em;
+/*******************************************************************************
+ *                                                                             *
+ * Tab									                                       *
+ *                                                                             *
+ ******************************************************************************/
+
+.tab{
+ 	-fx-text-fill-color:black;
+ 	-fx-border-radius: 10.0;
+ 	-fx-spacing: 5.0;
  }
 
+.tab-header-background{
+		-fx-background-color:derive(#4CAF50,20.0%);
+}
+ 
+.tab:hover{
+ -fx-background-color:derive(#4CAF50,10.0%);
+ 
+}
+.tab:focused,
+.tab:default:focused{
+ 	-fx-background-color:derive(#4CAF50,30.0%);
+}
+
+ 
  
  
  
