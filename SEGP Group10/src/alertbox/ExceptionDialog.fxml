@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="200.0" maxWidth="500.0" minHeight="200.0" minWidth="500.0" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="alertbox.ExceptionController">
+   <children>
+      <HBox prefHeight="150.0">
+         <children>
+            <AnchorPane prefHeight="122.0" prefWidth="500.0">
+               <children>
+                  <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="3.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/exception.png" />
+                     </image></ImageView>
+                  <Label layoutX="97.0" layoutY="19.0" text="Label" />
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" prefHeight="50.0">
+         <children>
+            <JFXButton alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="100.0" text="Ok        " textAlignment="CENTER">
+               <HBox.margin>
+                  <Insets right="10.0" top="10.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </HBox>
+   </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
+</VBox>
