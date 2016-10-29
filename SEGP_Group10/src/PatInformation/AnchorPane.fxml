@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+                        <children>
+                        <Label layoutX="200.0" layoutY="150.0" text="Email:" />
+                        <Label layoutX="200.0" layoutY="200.0" text="Contact Number:" />
+                        <Label layoutX="200.0" layoutY="250.0" text="Office Number:" />
+                        <Label layoutX="200.0" layoutY="300.0" text="Load:" />
+                        <Label layoutX="200.0" layoutY="350.0" text="Dept:" />
+                        <Label fx:id="email" layoutX="400.0" layoutY="150.0" text="SomeOne@gmail.com" />
+                        <Label fx:id="contactNumber" layoutX="400.0" layoutY="200.0" text="0303-8978675" />
+                        <Label fx:id="officeNumber" layoutX="400.0" layoutY="250.0" text="0997-8767564" />
+                        <Label fx:id="load" layoutX="400.0" layoutY="300.0" text="Full" />
+                        <Label fx:id="dept" layoutX="400.0" layoutY="350.0" text="CS" />
+                        <JFXButton fx:id="editButton" layoutX="400.0" layoutY="450.0" prefHeight="26.0" prefWidth="62.0" text="Edit" />
+                        <JFXButton fx:id="deleteButton" layoutX="470.0" layoutY="450.0" text="Delete" />
+                        <Label fx:id="assignedPATs" layoutX="200.0" layoutY="400.0" text="Allocated PATs:" />
+                        <JFXButton layoutX="400.0" layoutY="400.0" text="View" />
+      <Label layoutX="200.0" layoutY="100.0" text="ID:" />
+      <Label layoutX="400.0" layoutY="100.0" text="Label" />
+                    </children>
+</AnchorPane>
