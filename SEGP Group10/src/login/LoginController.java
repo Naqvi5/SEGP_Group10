@@ -46,7 +46,7 @@ public class LoginController implements Initializable{
 	    private ResultSet rs;
 	    public boolean valid_Login(String username, String password){
 		try{
-			con = DriverManager.getConnection("jdbc:mysql://localhost/seqp"+"user=root&password=badar5822634");
+			con = DriverManager.getConnection("jdbc:mysql://localhost/segp","root","badar5822634");
 			pst= con.prepareStatement("Selec * from client where username=? and password=?");
 			pst.setString(1, username);
 			pst.setString(2,password);
