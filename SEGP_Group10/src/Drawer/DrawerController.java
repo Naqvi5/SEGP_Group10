@@ -32,33 +32,33 @@ import javafx.scene.layout.VBox;
 public class DrawerController implements Initializable {
 
     @FXML
-    private VBox drawerPane;
+    private VBox drawerPane; // contains the buttons of drawer
 
     @FXML
-    public JFXButton PATBt;
+    public JFXButton PATBt; // pat button is clicked to view the pats infomation
 
     @FXML
-    private JFXButton studentsButton;
+    private JFXButton studentsButton; // students button is clicked when user wsnts to veiw the students information
 
     @FXML
-    private JFXButton settingBt;
+    private JFXButton settingBt; // same is the case as above buttons
 
     @FXML
-    private JFXButton helpBt;
+    private JFXButton helpBt; // same case
 
     @FXML
-    private JFXButton logoutBt;
+    public JFXButton logoutBt; // Logout buutton is to logout the user.
 
-    private ScrollPane scrollPane;
-    private BorderPane borderPane;
-    private PATSInformationController PATsInformationController;
-    private AddPATController addPATController;
-    private AllocatedPAT.AllocatedPATsController allocatedPATsController;
-    private JFXTabPane tabPane;
-    private FXMLLoader loader = null;
-    private Tab tabPATsinformation, tabAddPAT, tabAllocatedPATs, studentsInformationTab, assignPATTab;
-    private StudentsInformation.Studentsinformation studentsinformation;
-    private AssignPAT assignPATController;
+    private ScrollPane scrollPane; // scroll pane object 
+    private BorderPane borderPane; // border pane object
+    private PATSInformationController PATsInformationController; //pats information contoller
+    private AddPATController addPATController; // add pat controller
+    private AllocatedPAT.AllocatedPATsController allocatedPATsController; // allocated pat controller
+    private JFXTabPane tabPane; // tab pane
+    private FXMLLoader loader = null; // laoder to load fxml files
+    private Tab tabPATsinformation, tabAddPAT, tabAllocatedPATs, studentsInformationTab, assignPATTab; //containing all tabs
+    private StudentsInformation.Studentsinformation studentsinformation; // stundents information controler
+    private AssignPAT assignPATController; // assign pats controller
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,7 +82,6 @@ public class DrawerController implements Initializable {
         addPATController = loader.getController();
         tabAddPAT = addPATController.getTab();
 
-        
         loader = new FXMLLoader(getClass().getResource("../AllocatedPAT/AllocatedStudentsView.fxml"));
         try {
             loader.load();
@@ -111,94 +110,65 @@ public class DrawerController implements Initializable {
         assignPATTab = assignPATController.getTab();
     }
 
+    /**
+     * When the pat button is clicked set the pats tabs in the tab pane.
+     */
     @FXML
     public void patButtonOnClicked() {
 
-        PATsInformationController.settingPATData();
+        if (!borderPane.getChildren().contains(tabPane)) {
+            borderPane.setCenter(tabPane);
+        }
+
         while (!tabPane.getTabs().isEmpty()) {
             tabPane.getTabs().remove(0);
         }
         tabPane.getTabs().addAll(tabPATsinformation, tabAddPAT, tabAllocatedPATs);
     }
 
+    /**
+     * when the studensts button is clicked in the drawer it sets the students tabs in the tab pane.
+     */
     @FXML
     public void studentsButtonOnClicked() {
 
+        if (!borderPane.getChildren().contains(tabPane)) {
+            borderPane.setCenter(tabPane);
+        }
         while (!tabPane.getTabs().isEmpty()) {
             tabPane.getTabs().remove(0);
         }
         tabPane.getTabs().add(studentsInformationTab);
     }
 
-    public void setActionListeners() {
-
-        System.out.println("The pat button is: " + PATBt);
-        PATBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.out.println("working");
-//                tabPane.getTabs().addAll(tabPATsinformation, tabAddPAT);
-//                tabPane.getTabs().addAll(tabPATsinformation);//, tabAddPAT, tabAllocatedPATs);
-            }
-        });
-
-        PATBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
-        });
-        settingBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
-        });
-        helpBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
-        });
-        logoutBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-            }
-        });
-    }
-
     public VBox getDrawerPane() {
         return drawerPane;
     }
 
+    /**
+     * when the setting button is clicked set the setting tabs in the tabpane.
+     */
     @FXML
     public void settingButtonOnClicked() {
 
+        if (!borderPane.getChildren().contains(tabPane)) {
+            borderPane.setCenter(tabPane);
+        }
+
+        Tab tab = new Tab("Change Password");
         while (!tabPane.getTabs().isEmpty()) {
             tabPane.getTabs().remove(0);
         }
-        tabPane.getTabs().add(assignPATTab);
+        tabPane.getTabs().addAll(assignPATTab, tab);
     }
 
-    public void setTabPane(JFXTabPane tabPane) {
+    /**
+     * getting the tabpane and borderpane. 
+     */
+    public void setTabPane(JFXTabPane tabPane, BorderPane borderPane) {
         this.tabPane = tabPane;
-        
-        tabPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent e) {
-
-              if(tabPane.getSelectionModel().getSelectedItem() == tabPATsinformation){
-//                  PATsInformationController.settingPATData();
-              }else if(tabPane.getSelectionModel().getSelectedItem() == tabAddPAT){
-                  
-              }else if(tabPane.getSelectionModel().getSelectedItem() == tabAllocatedPATs){
-//                  allocatedPATsController.setDataFromDataBase();
-              }
-            }
-        });
-
+        System.out.println("Tab Pane is: " + tabPane);
+        this.borderPane = borderPane;
     }
 
 }

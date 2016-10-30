@@ -53,16 +53,21 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.function.Predicate;
 import javafx.beans.value.ChangeListener;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -1008,8 +1013,56 @@ public class Studentsinformation implements Initializable {
             }
         });
 
-//        treeTable.getColumns().setAll(studentUOB, studentName, emailAddress, studentYear, personalContact, dept, allocatedPAT);
         setStudentsData();
+    }
+
+    /**
+     * If the user wants to edit the information of a student then call goes to
+     * this method which only contains contact number text field because there
+     * is no other thing which is editable in students information.
+     */
+    @FXML
+    public void editInformationClicked() {
+
+        /**
+         * Here there is a need to get the selected row from the table and then
+         * modifying the contact number and also in the backend database and
+         * refresh the table view.
+         */
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../StudentsInformation/EditStudentView.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+
+        }
+        final EditStudentsInofrmationController editStudentsInofrmationController = loader.getController();
+        System.out.println(editStudentsInofrmationController);
+
+        Scene scene = new Scene(editStudentsInofrmationController.ancorPane);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+
+        editStudentsInofrmationController.cancelButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    stage.close();
+                }
+            }
+        });
+
+        editStudentsInofrmationController.saveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    stage.close();
+                }
+            }
+        });
+
     }
 
     public void setStudentsData() {
@@ -1049,10 +1102,13 @@ public class Studentsinformation implements Initializable {
             students.add(new Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], patsInformation.get(id).split(",")[1]));
         }
 
-//        treeTable.setsetSty
+        /**
+         * Here need to set the search text field in for the table.
+         */
         final TreeItem<Studentsinformation.Student> root = new RecursiveTreeItem<Studentsinformation.Student>(students, RecursiveTreeObject::getChildren);
         treeTable.setRoot(root);
         treeTable.setShowRoot(false);
+        addSearchField(searchTextField, treeTable);
 
     }
 
@@ -1112,9 +1168,9 @@ public class Studentsinformation implements Initializable {
             PdfWriter.getInstance(document, new FileOutputStream(selectedDirectory + "/Students_Record.pdf"));
             document.open();
 
-            Image imageNamalCollege = Image.getInstance("/home/abdul/Desktop/Logo5.png");
+            Image imageNamalCollege = Image.getInstance("/home/abdul/NetBeansProjects/SEGP Group10/src/AllocatedPAT/Logo5.png");
             document.add(imageNamalCollege);
-            document.add(new Paragraph("The Record for "));
+            document.add(new Paragraph("The Record for All Students are: "));
 
             ArrayList<String> students = new ArrayList<>();
             if (whichPDFToGenrate == 1 || whichPDFToGenrate == 2 || whichPDFToGenrate == 3 || whichPDFToGenrate == 13
@@ -1239,7 +1295,7 @@ public class Studentsinformation implements Initializable {
             int id = Integer.parseInt(tokens[6]) - 1;
             String patName = patsInformation.get(id).split(",")[1];
 
-          for (int j = 0; j < 6; j++) {
+            for (int j = 0; j < 6; j++) {
                 table.addCell(tokens[j]);
             }
             table.addCell(patName);

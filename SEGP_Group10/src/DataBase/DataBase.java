@@ -62,6 +62,11 @@ public class DataBase {
         }
     }
 
+    /**
+     * 
+     * @return ArrayList<String>
+     *  returns the data of all pats in an arraylist.
+     */
     public ArrayList<String> getTeachersData() {
 
         String query = "select * from patsinformation;";
@@ -87,6 +92,11 @@ public class DataBase {
         return teachersData;
     }
 
+    /**
+     * 
+     * @return arraylist of students data
+     * this method returns the data of students.
+     */
     public ArrayList<String> getStudentsData() {
 
         String query = "select * from studentsinformation;";
@@ -111,24 +121,42 @@ public class DataBase {
         }
         return studentsData;
     }
-    
-    public void editPatInformation(String contactNumber, String officeNumber, String id){
-        
-        String query = "UPDATE patsinformation SET contactnumber = " + '"' + contactNumber + '"' + ", phonenumber = " 
-                + '"' + officeNumber + '"' +" WHERE id = " + '"' + id +'"' +";";
+    /**
+     * 
+     * @param contactNumber
+     * @param officeNumber
+     * @param id 
+     * 
+     * use for editing the informaton of a pat
+     */
+    public void editPatInformation(String contactNumber, String officeNumber, String id) {
+
+        String query = "UPDATE patsinformation SET contactnumber = " + '"' + contactNumber + '"' + ", phonenumber = "
+                + '"' + officeNumber + '"' + " WHERE id = " + '"' + id + '"' + ";";
         executeQuery(query);
     }
-    
-    public void updatePATTable(String id, String assignedStudents){
+
+    /**
+     * 
+     * @param id
+     * @param assignedStudents 
+     * use t updata the studnets tables.
+     */
+    public void updatePATTable(String id, String assignedStudents) {
 
         String query = "UPDATE patsinformation SET assignedstudents = " + '"' + assignedStudents + '"'
-                +" WHERE id = " + '"' + id +'"' +";";
-        executeQuery(query);        
+                + " WHERE id = " + '"' + id + '"' + ";";
+        executeQuery(query);
     }
-    
-    public ArrayList<String> getUnallocatedStudentsData(){
-        
-         String query = "select * from unallocatedstudents;";
+
+    /**
+     * 
+     * @return  ArrayList<Stirng>
+     * returns the un allocates studnets to table view.
+     */
+    public ArrayList<String> getUnallocatedStudentsData() {
+
+        String query = "select * from unallocatedstudents;";
         getResult(query);
         ArrayList<String> studentsData = new ArrayList<>();
         try {
@@ -149,5 +177,43 @@ public class DataBase {
 
         }
         return studentsData;
+    }
+
+    /**
+     * 
+     * @param id
+     * @return 
+     * If a students has been deallocated need to save it into the dealocated studnes table.
+     */
+    public ArrayList<String> deallocateStudents(String id) {
+
+        String query = "select * from studentsinformation;";
+        getResult(query);
+        ArrayList<String> studentsData = new ArrayList<>();
+        try {
+            while (result.next()) {
+
+                String getID = result.getString(7);
+                if (getID.trim().equalsIgnoreCase(id)) {
+                    String row = "";
+                    for (int i = 1; i <= resultSet.getColumnCount(); i++) {
+
+                        if (row.equals("")) {
+                            row = result.getString(i);
+                        } else {
+                            row += "," + result.getString(i);
+                        }
+                    }
+                    studentsData.add(row);
+                }
+            }
+        } catch (SQLException e) {
+
+        }
+        
+        String deleteStudents = "DELETE FROM studentsinformation where patid = " + '"' + id +'"' +";";
+        executeQuery(deleteStudents);
+        return studentsData;
+
     }
 }

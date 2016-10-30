@@ -5,12 +5,6 @@
  */
 package Setting;
 
-//import com.jfoenix.controls.JFXButton;
-//import com.jfoenix.controls.JFXListView;
-//import com.jfoenix.controls.JFXPopup;
-//import com.jfoenix.controls.JFXTreeTableColumn;
-//import com.jfoenix.controls.JFXTreeTableView;
-//import com.jfoenix.controls.RecursiveTreeItem;
 import DataBase.DataBase;
 import alertbox.*;
 import com.jfoenix.controls.JFXListView;
@@ -58,50 +52,49 @@ import javafx.util.Callback;
 public class AssignPAT implements Initializable {
 
     @FXML
-    private BorderPane borderPane;
+    private BorderPane borderPane; //Border pane to fit the voew
 
     @FXML
-    private JFXListView<String> listView;
+    private JFXListView<String> listView; // listview to maintain the data of PATS
 
     @FXML
-    private JFXTreeTableView tableView;
+    private JFXTreeTableView tableView; // table view to show the record of teh studetns
 
     @FXML
-    private JFXRadioButton studentListButton;
+    private JFXRadioButton studentListButton; // to upload the studetns list it works as an identifier
 
     @FXML
-    private JFXRadioButton patListButton;
+    private JFXRadioButton patListButton; // same function as studnets list button but use to identify PATS list.
 
     @FXML
-    private JFXTextField filePathField;
+    private JFXTextField filePathField; // use for path showing
 
     @FXML
-    private JFXTextField searchTextField;
+    private JFXTextField searchTextField; //use for searching any student
 
     @FXML
-    private Tab tab;
+    private Tab tab; // Tab for assigining pat located in the tabpane
 
-    private DataBase dataBase = new DataBase();
-    private ObservableList<String> listItems = FXCollections.observableArrayList();
-    private ObservableList<Student> students = FXCollections.observableArrayList();
-    private ObservableList<Student> assignedStudents = FXCollections.observableArrayList();
-    private ObservableList<PAT> pats = FXCollections.observableArrayList();
-    private ObservableList<PAT> allocatedPATs = FXCollections.observableArrayList();
-    private ObservableList<Integer> selectedIndices = FXCollections.observableArrayList();
-    private ArrayList<String> year1Students = new ArrayList<>();
-    private ArrayList<String> year2Students = new ArrayList<>();
-    private ArrayList<String> year3Students = new ArrayList<>();
-    private ArrayList<String> year4Students = new ArrayList<>();
-    private ArrayList<String> remainingStudents = new ArrayList<>();
+    private DataBase dataBase = new DataBase(); // use to get the data form database
+    private ObservableList<String> listItems = FXCollections.observableArrayList(); // maintian the item of list i-e PATS Names
+    private ObservableList<Student> students = FXCollections.observableArrayList(); //maintain the record of students
+    private ObservableList<Student> assignedStudents = FXCollections.observableArrayList(); // maintain the list of assigned students
+    private ObservableList<PAT> pats = FXCollections.observableArrayList(); // contains pats objects
+//    private ObservableList<PAT> allocatedPATs = FXCollections.observableArrayList(); // 
+    private ObservableList<Integer> selectedIndices = FXCollections.observableArrayList(); // stores the selected indices formthe table
+    private ArrayList<String> year1Students = new ArrayList<>(); // maintains year1 students data
+    private ArrayList<String> year2Students = new ArrayList<>(); // maintains year2 students data
+    private ArrayList<String> year3Students = new ArrayList<>();// maintains year3 students data
+    private ArrayList<String> year4Students = new ArrayList<>();// maintains year4 students data
+    private ArrayList<String> remainingStudents = new ArrayList<>(); // maintains the remaining students data who are not assigned
 
-    String[] tokensPATInformation;
-    String[] tokensStudentInformation;
+    String[] tokensPATInformation; // contains a pat complete information one at atime
+    String[] tokensStudentInformation; // contains a studnets complete information one at atime
 
     /**
      * Alert Boxes Controller reference variables
      */
-    private FXMLLoader loader;
-    private ConfirmationController confirmationController;
+    private FXMLLoader loader; //use for loading the fxml files
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -120,6 +113,9 @@ public class AssignPAT implements Initializable {
             }
         });
 
+        /**
+         * Creating the table columns
+         */
         JFXTreeTableColumn<AssignPAT.Student, String> studentName = new JFXTreeTableColumn<>("Name");
         studentName.setPrefWidth(150);
         studentName.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AssignPAT.Student, String>, ObservableValue<String>>() {
@@ -170,10 +166,15 @@ public class AssignPAT implements Initializable {
             }
         });
 
+        /**
+         * Adding the columns in the table view
+         */
         tableView.getColumns().setAll(studentUOB, studentName, emailAddress, studentYear, personalContact, dept);
-//        patListButton.setSelected(true);
-//        patListButton.  
 
+        /**
+         * Adding action listener to the search textfiels so that when user searches then it gives according
+         * to the search.
+         */
         searchTextField.textProperty().addListener(new ChangeListener<String>() {
 
             @Override
@@ -195,7 +196,6 @@ public class AssignPAT implements Initializable {
             }
         });
 
-        //Need to clear the list before the call of under given methid
         setPATAndStudentData();
     }
 
@@ -208,6 +208,9 @@ public class AssignPAT implements Initializable {
 
     }
 
+    /**
+     * when the browse button is clicked then it asks for slecting the path and upload the data in to the database.
+     */
     @FXML
     private void browseButtonOnClicked() {
 
@@ -221,7 +224,7 @@ public class AssignPAT implements Initializable {
         if (selectedFile.getAbsolutePath() != null) {
             filePathField.setText(selectedFile.getAbsolutePath());
         }
-        
+
         Scanner input = null;
         try {
             input = new Scanner(new File(selectedFile.getAbsolutePath()));
@@ -375,6 +378,49 @@ public class AssignPAT implements Initializable {
         return false;
     }
 
+    
+    /**
+     * If the user wants to deallocate the students then this method calls.
+     */
+    @FXML
+    public void deallocateOnClicked() {
+
+        int index = listView.getSelectionModel().getSelectedIndex();
+
+        if (index >= 0) {
+            PAT pat = pats.get(index);
+            String patID = pat.patID.getValue().trim();
+            ArrayList<String> studentsData = dataBase.deallocateStudents(patID);
+            pat.assignedStudents.setValue("0");
+            dataBase.updatePATTable(patID, "0");
+
+            String selectedListItem = listItems.get(index);
+            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+            listItems.set(index, selectedListItem);
+
+            for (int i = 0; i < studentsData.size(); i++) {
+
+                String[] tokens = studentsData.get(i).split(",");
+                students.add(new Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]));
+                String query = "INSERT INTO unallocatedstudents values(" + '"' + tokens[0] + '"' + "," + '"' + tokens[1]
+                        + '"' + "," + '"' + tokens[2] + '"'+ "," + '"' + tokens[3] + '"' + "," + '"' + tokens[4] + '"'
+                        + "," + '"' + tokens[5] + '"' + ");";
+                dataBase.executeQuery(query);
+            }
+
+            final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
+            tableView.setRoot(root);
+            tableView.setShowRoot(false);
+        } else {
+            confirmMessage("Please Select a PAT before de-allocating");
+        }
+
+    }
+
+    
+    /**
+     * call goes to this method when user wants to allocate students manually.
+     */
     @FXML
     public void manualAllocationClicked() {
 
@@ -461,6 +507,10 @@ public class AssignPAT implements Initializable {
         }
     }
 
+    
+    /**
+     * To assign the students automatically call goes to this method.
+     */
     @FXML
     public void autoAllocatesClicked() {
 
@@ -601,7 +651,6 @@ public class AssignPAT implements Initializable {
                             String selectedListItem = listItems.get(patId);
                             selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
                             listItems.set(patId, selectedListItem);
-
 
                         } else {
                             remainingStudents.add(year2Students.get(i));
@@ -762,6 +811,10 @@ public class AssignPAT implements Initializable {
         dataBase.executeQuery(query);
     }
 
+    
+    /**
+     * If the user wants to allocate the un assigned the students by studnets then this method will do its duty.
+     */
     public void mazeedAutoAllocate() {
 
         int patSize = pats.size();
@@ -799,6 +852,10 @@ public class AssignPAT implements Initializable {
         tableView.setShowRoot(false);
     }
 
+    /**
+     * When some students are allocated then there is a need to delete the students from unallcoated table and put them in it 
+     * the allocated tables.
+     */
     void delete(int index, int size) {
 
         for (int i = size - 1; i >= 0; i--) {
@@ -812,6 +869,9 @@ public class AssignPAT implements Initializable {
         tableView.setShowRoot(false);
     }
 
+    /**
+     * This class is for students containing students properties.
+     */
     private class Student extends RecursiveTreeObject<Student> {
 
         StringProperty studentUOB;
@@ -833,6 +893,9 @@ public class AssignPAT implements Initializable {
         }
     }
 
+    /**
+     * This class is for PATS containing pat attributes.
+     */
     private class PAT {
 
         StringProperty patID;

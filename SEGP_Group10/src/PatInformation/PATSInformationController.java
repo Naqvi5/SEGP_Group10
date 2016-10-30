@@ -8,19 +8,25 @@ package PatInformation;
 import DataBase.DataBase;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -61,8 +67,12 @@ public class PATSInformationController implements Initializable {
     @FXML
     private AnchorPane subAnchorPane;
 
+    @FXML
+    private Label allocatedStudents;
+
     private AnchorPane anchorPane;
     private PATsInformationEditingController PATsInformationEditingController;
+    private AssignedStudentsController assignedStudentsController;
     private FXMLLoader loader;
     private JFXButton cancelButton;
     private DataBase dataBase = new DataBase();
@@ -105,6 +115,54 @@ public class PATSInformationController implements Initializable {
 
     @FXML
     public void viewButtonOnClicked() {
+
+        int id = list.getSelectionModel().getSelectedIndex();
+
+        if (id >= 0) {
+            String name = list.getSelectionModel().getSelectedItem().getText();
+            borderPane.setCenter(assignedStudentsController.anchorPane);
+
+            assignedStudentsController.patName.setText(name);
+            assignedStudentsController.groupNumber.setText(String.valueOf(id + 1));
+
+            ObservableList<AssignedStudentsController.Student> students = FXCollections.observableArrayList();
+
+            for (int i = 0; i < studentData.length; i++) {
+
+                if (Integer.parseInt(studentData[i][6]) == id + 1) {
+
+                    students.add(assignedStudentsController.new Student(studentData[i][0], studentData[i][1], studentData[i][2], studentData[i][3],
+                            studentData[i][4], studentData[i][5], name));
+
+                }
+            }
+
+            final TreeItem<AssignedStudentsController.Student> root = new RecursiveTreeItem<AssignedStudentsController.Student>(students, RecursiveTreeObject::getChildren);
+            assignedStudentsController.tableView.setRoot(root);
+            assignedStudentsController.tableView.setShowRoot(false);
+
+            list.setDisable(true);
+
+            assignedStudentsController.backButtonClicked.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                @Override
+                public void handle(MouseEvent e) {
+                    list.setDisable(false);
+                    borderPane.setCenter(subAnchorPane);
+                }
+            });
+        } else {
+            
+            ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Alert alert = new Alert(Alert.AlertType.WARNING, null, ok, cancel);
+
+            alert.setTitle("Warning");
+            alert.setHeaderText("Look, an Information Dialog");
+            alert.setContentText("Please Select a PAT before Viewing Assigned Students");
+            alert.showAndWait();
+
+        }
     }
 
     public void setInformation(String name) {
@@ -146,15 +204,24 @@ public class PATSInformationController implements Initializable {
                 String officeNumber = PATsInformationEditingController.editOfficeNumber.getText();
 
                 if (validateEditPATInformation(contactNumber, officeNumber)) {
-
-                    changeSetting(contactNumber, officeNumber, list.getSelectionModel().getSelectedItem().getText());
-
+                    
+                    changeSetting(contactNumber, officeNumber, String.valueOf(list.getSelectionModel().getSelectedIndex() + 1));
                 }
 
             }
         });
 
         anchorPane = PATsInformationEditingController.getAnchorPane();
+
+        loader = new FXMLLoader(getClass().getResource("../PatInformation/AssignedStudentsView.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assignedStudentsController = loader.getController();
+
         settingPATData();
     }
 
@@ -176,18 +243,16 @@ public class PATSInformationController implements Initializable {
         return true;
     }
 
-    
-    
     /**
      * Making a list of the names of pats and adding listener to them so that
-     * when they are clicked information are meant to be displayed on the screen.
+     * when they are clicked information are meant to be displayed on the
+     * screen.
      */
-    
     public void settingPATData() {
 
         getPatsData();
         getStudentsData();
-        for (int i = 1; i < patsData.length; i++) {
+        for (int i = 0; i < patsData.length; i++) {
 
             final int row = i;
             final Label nameLabel = new Label(patsData[i][1]);
@@ -200,6 +265,7 @@ public class PATSInformationController implements Initializable {
                     officeNumber.setText(patsData[row][3]);
                     dept.setText(patsData[row][5]);
                     load.setText(patsData[row][6]);
+                    allocatedStudents.setText(patsData[row][7]);
                 }
             });
             list.getItems().add(nameLabel);
@@ -210,6 +276,10 @@ public class PATSInformationController implements Initializable {
         return tab;
     }
 
+//    @FXML 
+//    public void viewButtonOnClicked(){
+//        
+//    }
     @FXML
     public void viewAssignedPATsClicked() {
     }
@@ -233,13 +303,19 @@ public class PATSInformationController implements Initializable {
         alert.setContentText(message);
         alert.show();
     }
+    
 
-    public void changeSetting(String contactNumber, String officeNumber, String patName) {
+    /**
+     *  when the user saves the changed information then these information goes to database and then an execution of a query
+     *  saves it. It is called if the contact number and the office number is in correct format.
+     */
+    public void changeSetting(String contactNumber, String officeNumber, String id) {
 
         int selectedRow = -1;
 
+        System.out.println("office: "+officeNumber);
         for (int i = 0; i < patsData.length; i++) {
-            if (patsData[i][1].equals(patName)) {
+            if (patsData[i][0].equals(id)) {
                 selectedRow = i;
                 break;
             }
@@ -249,7 +325,7 @@ public class PATSInformationController implements Initializable {
             patsData[selectedRow][3] = officeNumber;
         }
         if (!contactNumber.equals(null)) {
-            patsData[selectedRow][4] = officeNumber;
+            patsData[selectedRow][4] = contactNumber;
         }
 
         dataBase.editPatInformation(contactNumber, officeNumber, patsData[selectedRow][0]);
