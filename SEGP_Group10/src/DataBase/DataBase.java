@@ -118,4 +118,36 @@ public class DataBase {
                 + '"' + officeNumber + '"' +" WHERE id = " + '"' + id +'"' +";";
         executeQuery(query);
     }
+    
+    public void updatePATTable(String id, String assignedStudents){
+
+        String query = "UPDATE patsinformation SET assignedstudents = " + '"' + assignedStudents + '"'
+                +" WHERE id = " + '"' + id +'"' +";";
+        executeQuery(query);        
+    }
+    
+    public ArrayList<String> getUnallocatedStudentsData(){
+        
+         String query = "select * from unallocatedstudents;";
+        getResult(query);
+        ArrayList<String> studentsData = new ArrayList<>();
+        try {
+            while (result.next()) {
+
+                String row = "";
+                for (int i = 1; i <= resultSet.getColumnCount(); i++) {
+
+                    if (row.equals("")) {
+                        row = result.getString(i);
+                    } else {
+                        row += "," + result.getString(i);
+                    }
+                }
+                studentsData.add(row);
+            }
+        } catch (SQLException e) {
+
+        }
+        return studentsData;
+    }
 }

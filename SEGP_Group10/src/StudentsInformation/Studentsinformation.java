@@ -1032,7 +1032,6 @@ public class Studentsinformation implements Initializable {
         whichPDFToGenrate = 15;
         for (int i = 0; i < studentsData.size(); i++) {
 
-            System.out.println(studentsData.get(i));
             String[] tokens = studentsData.get(i).split(",");
             int id = Integer.parseInt(tokens[6]) - 1;
             String arow;

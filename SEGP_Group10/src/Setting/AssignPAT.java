@@ -77,7 +77,7 @@ public class AssignPAT implements Initializable {
 
     @FXML
     private JFXTextField searchTextField;
-    
+
     @FXML
     private Tab tab;
 
@@ -87,11 +87,12 @@ public class AssignPAT implements Initializable {
     private ObservableList<Student> assignedStudents = FXCollections.observableArrayList();
     private ObservableList<PAT> pats = FXCollections.observableArrayList();
     private ObservableList<PAT> allocatedPATs = FXCollections.observableArrayList();
-    private ObservableList<Student> selectedIndices = FXCollections.observableArrayList();
+    private ObservableList<Integer> selectedIndices = FXCollections.observableArrayList();
     private ArrayList<String> year1Students = new ArrayList<>();
     private ArrayList<String> year2Students = new ArrayList<>();
     private ArrayList<String> year3Students = new ArrayList<>();
     private ArrayList<String> year4Students = new ArrayList<>();
+    private ArrayList<String> remainingStudents = new ArrayList<>();
 
     String[] tokensPATInformation;
     String[] tokensStudentInformation;
@@ -194,19 +195,9 @@ public class AssignPAT implements Initializable {
             }
         });
 
-        loader = loader = new FXMLLoader(getClass().getResource("../alertbox/ConfirmationDialog.fxml"));
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        confirmationController = loader.getController();
-
+        //Need to clear the list before the call of under given methid
+        setPATAndStudentData();
     }
-
-    boolean vaue = false;
 
     public BorderPane getBorderPane() {
         return borderPane;
@@ -220,6 +211,7 @@ public class AssignPAT implements Initializable {
     @FXML
     private void browseButtonOnClicked() {
 
+        boolean eraseDataOrNot = true;
         Stage primaryStage = new Stage();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
@@ -229,8 +221,7 @@ public class AssignPAT implements Initializable {
         if (selectedFile.getAbsolutePath() != null) {
             filePathField.setText(selectedFile.getAbsolutePath());
         }
-//        System.out.println(selectedFile.getAbsolutePath());
-
+        
         Scanner input = null;
         try {
             input = new Scanner(new File(selectedFile.getAbsolutePath()));
@@ -255,15 +246,12 @@ public class AssignPAT implements Initializable {
                 dataBase.executeQuery(deleteQuery);
                 listItems.clear();
                 pats.clear();
-
-                deleteQuery = "TRUNCATE studentsinformation;";
-                dataBase.executeQuery(deleteQuery);
-                deleteQuery = "TRUNCATE unallocatedstudents;";
-                dataBase.executeQuery(deleteQuery);
-
-                students.clear();
-
-            } else if (studentListButton.isSelected()) {
+            } /**
+             * Here the under given query will erase of previous data. Delete
+             * Everything from students information and unallocated students
+             * table.
+             */
+            else if (studentListButton.isSelected()) {
 
                 String deleteQuery = "TRUNCATE studentsinformation;";
                 dataBase.executeQuery(deleteQuery);
@@ -274,65 +262,41 @@ public class AssignPAT implements Initializable {
 
             }
 
+            /**
+             * Getting the data from CSV file and adding it in to the unallocate
+             * students table.
+             */
             while (input.hasNextLine()) {
 
                 if (patListButton.isSelected()) {
 
                     /**
-                     * Here the under given query will erase of previous data.
-                     * Delete Everything from pats information table.
+                     * Getting the data from CSV file and uploading it in to the
+                     * database.
                      */
                     tokensPATInformation = input.nextLine().trim().split(",");
-                    listItems.add(tokensPATInformation[1]);
+//                    listItems.add(tokensPATInformation[1]);
 
-                    pats.add(new PAT(tokensPATInformation[0], tokensPATInformation[1], tokensPATInformation[2], tokensPATInformation[3], tokensPATInformation[4], tokensPATInformation[5],
-                            tokensPATInformation[6]));
-
+//                    pats.add(new PAT(tokensPATInformation[0], tokensPATInformation[1], tokensPATInformation[2], tokensPATInformation[3], tokensPATInformation[4], tokensPATInformation[5],
+//                            tokensPATInformation[6]));
                     String query = "INSERT INTO patsinformation values(" + '"' + tokensPATInformation[0] + '"'
                             + "," + '"' + tokensPATInformation[1] + '"' + "," + '"' + tokensPATInformation[2] + '"'
                             + "," + '"' + tokensPATInformation[3] + '"' + "," + '"' + tokensPATInformation[4] + '"'
                             + "," + '"' + tokensPATInformation[5] + '"' + "," + '"'
-                            + tokensPATInformation[6] + '"' + ");";
+                            + tokensPATInformation[6] + '"' + "," + '"' + "0" + '"' + ");";
                     dataBase.executeQuery(query);
 
                 }
 
                 if (studentListButton.isSelected()) {
 
-                    String deleteQuery = "TRUNCATE studentsinformation;";
-                    dataBase.executeQuery(deleteQuery);
-
-                    deleteQuery = "TRUNCATE unallocatedstudents;";
-                    dataBase.executeQuery(deleteQuery);
-
                     /**
-                     * Here the under given query will erase of previous data.
-                     * Delete Everything from students information and
-                     * unallocated students table.
+                     * Getting the data from the CSV file of students
+                     * information and uploading it in to the students
+                     * information table in the database.
                      */
                     String result = input.nextLine();
                     tokensStudentInformation = result.trim().split(",");
-
-                    /**
-                     * getting the data of each year student seperately to get
-                     * hnadle the data easily. And to avoid using of loops again
-                     * and again to find the data of a single year student. It
-                     * is done because if auto allocattion is allowed then the
-                     * system may able to select different students.
-                     */
-                    if (tokensStudentInformation[3].trim().equalsIgnoreCase("Year-1")) {
-                        year1Students.add(result);
-                    } else if (tokensStudentInformation[3].trim().equalsIgnoreCase("year-2")) {
-                        year2Students.add(result);
-                    } else if (tokensStudentInformation[3].trim().equalsIgnoreCase("year-3")) {
-                        year3Students.add(result);
-                    } else if (tokensStudentInformation[3].trim().equalsIgnoreCase("year-4")) {
-                        year4Students.add(result);
-                    }
-
-                    students.add(new Student(tokensStudentInformation[0], tokensStudentInformation[1],
-                            tokensStudentInformation[2], tokensStudentInformation[3], tokensStudentInformation[4],
-                            tokensStudentInformation[5]));
 
                     String query = "INSERT INTO unallocatedstudents values(" + '"' + tokensStudentInformation[0] + '"'
                             + "," + '"' + tokensStudentInformation[1] + '"' + "," + '"' + tokensStudentInformation[2] + '"'
@@ -340,19 +304,57 @@ public class AssignPAT implements Initializable {
                             + "," + '"' + tokensStudentInformation[5] + '"' + ");";
                     dataBase.executeQuery(query);
                 }
-                final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
-
-                tableView.setRoot(root);
-                tableView.setShowRoot(false);
-                tableView.getSelectionModel().setSelectionMode(
-                        SelectionMode.MULTIPLE
-                );
-                listView.setItems(listItems);
-
             }
         }
+        setPATAndStudentData();
     }
 
+    /**
+     * Setting the PATs and students information by getting them from database.
+     */
+    public void setPATAndStudentData() {
+
+        /**
+         * getting the data of each year student seperately to get handle the
+         * data easily. And to avoid using of loops again and again to find the
+         * data of a single year student. It is done because if auto allocation
+         * is allowed then the system may able to select different students.
+         */
+        ArrayList<String> studentsInformation = dataBase.getUnallocatedStudentsData();
+        ArrayList<String> patsData = dataBase.getTeachersData();
+
+        for (int i = 0; i < studentsInformation.size(); i++) {
+
+            String result = studentsInformation.get(i);
+            String[] tokens = result.split(",");
+
+            students.add(new Student(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5]));
+        }
+
+        final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
+
+        tableView.setRoot(root);
+        tableView.setShowRoot(false);
+        tableView.getSelectionModel().setSelectionMode(
+                SelectionMode.MULTIPLE
+        );
+
+        pats.clear();
+        listItems.clear();
+        for (int i = 0; i < patsData.size(); i++) {
+
+            String[] tokens = patsData.get(i).split(",");
+            pats.add(new PAT(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], tokens[5], tokens[6], tokens[7]));
+            listItems.add(tokens[1] + "   " + tokens[7]);
+        }
+
+        listView.setItems(listItems);
+    }
+
+    /**
+     * This method is called when there is a need of confirmation somewhere in
+     * the interface.
+     */
     public boolean confirmMessage(String message) {
 
         ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -377,86 +379,108 @@ public class AssignPAT implements Initializable {
     public void manualAllocationClicked() {
 
         /**
-         * Getting selected pat from the list of pats.
-         */
-        int index = listView.getSelectionModel().getSelectedIndex();
-        PAT pat = pats.get(index);
-        String patID = pat.patID.getValue();
-        String patLoad = pat.load.getValue().toString();
-
-        /**
          * Here need to get the selected rows from the unallocated students
          * table.
          */
         selectedIndices = tableView.getSelectionModel().getSelectedIndices();
-        ObservableList<Integer> indexes = tableView.getSelectionModel().getSelectedIndices();
-        Student[] studentInformation = new Student[selectedIndices.size()];
 
-        boolean assignmentAllowed = false;
-        if (patLoad.equalsIgnoreCase("Full")) {
-            if ((pat.assignedStudents + selectedIndices.size()) > 8) {
-                assignmentAllowed = false;
-                assignmentAllowed = confirmMessage("This teacher is already full of load\nDo you want to proceed fuether?");
-            } else {
-                assignmentAllowed = true;
-            }
-        } else if (patLoad.equalsIgnoreCase("Partial")) {
-            if ((pat.assignedStudents + selectedIndices.size()) > 4) {
-                assignmentAllowed = false;
-                assignmentAllowed = confirmMessage("This teacher is already full of load\nDo you want to proceed fuether?");
-            } else {
-                assignmentAllowed = true;
-            }
-        }
+        /**
+         * Getting selected pat from the list of pats.
+         */
+        int index = listView.getSelectionModel().getSelectedIndex();
 
-        if (assignmentAllowed) {
+        if (index >= 0 && selectedIndices.size() > 0) {
+            PAT pat = pats.get(index);
+            String patID = pat.patID.getValue();
+            String patLoad = pat.load.getValue().toString();
 
-            /**
-             * Need to create an array to remmber the UOB's of students
-             */
-            /**
-             * Getting the selected indices from table.
-             */
-            for (int i = 0; i < selectedIndices.size(); i++) {
-                studentInformation[i] = students.get(i);
-            }
+            ObservableList<Integer> indexes = tableView.getSelectionModel().getSelectedIndices();
+            Student[] studentInformation = new Student[selectedIndices.size()];
 
-            /**
-             * Inserting the students information in to the allocated students
-             * table.
-             */
-            for (int i = 0; i < studentInformation.length; i++) {
-                String query = "INSERT INTO studentsinformation values(" + '"' + studentInformation[i].studentUOB.getValue() + '"'
-                        + "," + '"' + studentInformation[i].studentName.getValue() + '"' + "," + '"' + studentInformation[i].emailAddress.getValue() + '"'
-                        + "," + '"' + studentInformation[i].studentYear.getValue() + '"' + "," + '"' + studentInformation[i].contactNumber.getValue() + '"'
-                        + "," + '"' + studentInformation[i].dept.getValue() + '"' + "," + '"' + patID + '"' + ");";
-                dataBase.executeQuery(query);
-                pat.assignedStudents++;
+            boolean assignmentAllowed = false;
+            if (patLoad.equalsIgnoreCase("Full")) {
+                if ((Integer.parseInt(pat.assignedStudents.getValue()) + selectedIndices.size()) > 8) {
+                    assignmentAllowed = false;
+                    assignmentAllowed = confirmMessage("This teacher is already full of load\nDo you want to proceed fuether?");
+                } else {
+                    assignmentAllowed = true;
+                }
+            } else if (patLoad.equalsIgnoreCase("Partial")) {
+                if ((Integer.parseInt(pat.assignedStudents.getValue()) + selectedIndices.size()) > 4) {
+                    assignmentAllowed = false;
+                    assignmentAllowed = confirmMessage("This teacher is already full of load\nDo you want to proceed fuether?");
+                } else {
+                    assignmentAllowed = true;
+                }
             }
 
-            String selectedListItem = listItems.get(index);
-            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-            listItems.set(index, selectedListItem);
+            if (assignmentAllowed) {
 
-            /**
-             * After deleting the assigning the user selected students to A PAT
-             * then there is a need to delete those students from unallocated
-             * students tables and insert them to allocated students table. To
-             * add students the above query will execute but to delete the data
-             * form the table call goes to delete method. And then need to
-             * refresh the table.
-             */
-            delete(indexes.get(0), indexes.size());
-            final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
-            tableView.setRoot(root);
-            tableView.setShowRoot(false);
+                /**
+                 * Getting the selected indices from table.
+                 */
+                for (int i = 0; i < selectedIndices.size(); i++) {
+                    studentInformation[i] = students.get(i);
+                }
+                /**
+                 * Inserting the students information in to the allocated
+                 * students table.
+                 */
+                for (int i = 0; i < selectedIndices.size(); i++) {
+                    String query = "INSERT INTO studentsinformation values(" + '"' + studentInformation[i].studentUOB.getValue() + '"'
+                            + "," + '"' + studentInformation[i].studentName.getValue() + '"' + "," + '"' + studentInformation[i].emailAddress.getValue() + '"'
+                            + "," + '"' + studentInformation[i].studentYear.getValue() + '"' + "," + '"' + studentInformation[i].contactNumber.getValue() + '"'
+                            + "," + '"' + studentInformation[i].dept.getValue() + '"' + "," + '"' + patID + '"' + ");";
 
+                    dataBase.executeQuery(query);
+
+                    int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                    assignedStudentsNumber += 1;
+                    pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                    dataBase.updatePATTable(patID, String.valueOf(assignedStudentsNumber));
+                }
+
+                String selectedListItem = listItems.get(index);
+                selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                listItems.set(index, selectedListItem);
+
+                /**
+                 * After deleting the assigning the user selected students to A
+                 * PAT then there is a need to delete those students from
+                 * unallocated students tables and insert them to allocated
+                 * students table. To add students the above query will execute
+                 * but to delete the data form the table call goes to delete
+                 * method. And then need to refresh the table.
+                 */
+                delete(indexes.get(0), indexes.size());
+                final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
+                tableView.setRoot(root);
+                tableView.setShowRoot(false);
+
+            }
         }
     }
 
     @FXML
     public void autoAllocatesClicked() {
 
+        ArrayList<String> unallocatedStudents = dataBase.getUnallocatedStudentsData();
+
+        for (int i = 0; i < unallocatedStudents.size(); i++) {
+
+            String result = unallocatedStudents.get(i);
+            String[] tokens = result.split(",");
+
+            if (tokens[3].trim().equalsIgnoreCase("Year-1")) {
+                year1Students.add(result);
+            } else if (tokens[3].trim().equalsIgnoreCase("year-2")) {
+                year2Students.add(result);
+            } else if (tokens[3].trim().equalsIgnoreCase("year-3")) {
+                year3Students.add(result);
+            } else if (tokens[3].trim().equalsIgnoreCase("year-4")) {
+                year4Students.add(result);
+            }
+        }
         int patSize = pats.size();
 //        int equallyAllocateStudents
         int size = year1Students.size();
@@ -470,195 +494,253 @@ public class AssignPAT implements Initializable {
             size = year4Students.size();
         }
 
-        ArrayList<String> remainingStudents = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-
-            int patId = i % patSize;
-            PAT pat = pats.get(patId);
-
-            if (i < year1Students.size()) {
-                if (pat.load.getValue().equalsIgnoreCase("full")) {
-
-                    if (pat.assignedStudents < 9) {
-
-                        String[] studentyear1data = year1Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-
-                    } else {
-                        remainingStudents.add(year1Students.get(i));
-                    }
-                } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
-
-                    if (pat.assignedStudents < 5) {
-
-                        String[] studentyear1data = year1Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year1Students.get(i));
-                    }
-                }
-            }
-
-            if (i < year2Students.size()) {
-                if (pat.load.getValue().equalsIgnoreCase("full")) {
-
-                    if (pat.assignedStudents < 9) {
-
-                        String[] studentyear1data = year2Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-//                        System.out.println(query);
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year2Students.get(i));
-                    }
-                } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
-
-                    if (pat.assignedStudents < 5) {
-
-                        String[] studentyear1data = year2Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year2Students.get(i));
-                    }
-                }
-            }
-
-            if (i < year3Students.size()) {
-                if (pat.load.getValue().equalsIgnoreCase("full")) {
-
-                    if (pat.assignedStudents < 9) {
-
-                        String[] studentyear1data = year3Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year3Students.get(i));
-                    }
-                } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
-
-                    if (pat.assignedStudents < 5) {
-
-                        String[] studentyear1data = year3Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year3Students.get(i));
-                    }
-                }
-            }
-
-            if (i < year4Students.size()) {
-                if (pat.load.getValue().equalsIgnoreCase("full")) {
-
-                    if (pat.assignedStudents < 9) {
-
-                        String[] studentyear1data = year4Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year4Students.get(i));
-                    }
-                } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
-
-                    if (pat.assignedStudents < 5) {
-
-                        String[] studentyear1data = year4Students.get(i).split(",");
-                        String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
-                                + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
-                                + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
-                                + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
-
-                        dataBase.executeQuery(query);
-                        String selectedListItem = listItems.get(patId);
-                        selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
-                        listItems.set(patId, selectedListItem);
-                        pat.assignedStudents++;
-                    } else {
-                        remainingStudents.add(year4Students.get(i));
-                    }
-                }
-            }
-
+        if (size == 0 && remainingStudents.size() > 0) {
+            mazeedAutoAllocate();
         }
 
-        /**
-         * Here we need to delete all students that have been assigned to need
-         * to refresh the table view and also need to delete the allocated
-         * students data from unallocated students table in the database.
-         */
-        students.clear();
-        for (int i = 0; i < remainingStudents.size(); i++) {
-            tokensStudentInformation = remainingStudents.get(i).split(",");
-            students.add(new Student(tokensStudentInformation[0], tokensStudentInformation[1],
-                    tokensStudentInformation[2], tokensStudentInformation[3], tokensStudentInformation[4], tokensStudentInformation[4]));
-        }
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
 
-        final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
-        tableView.setRoot(root);
-        tableView.setShowRoot(false);
-        deleteUnallocatedStudentsFromDataBase();
+                int patId = i % patSize;
+                PAT pat = pats.get(patId);
 
-        if (confirmMessage("Some Students are remaining do you want to allocate them automatically\nRecommended: Assign them manually.")) {
-            mazeedAutoAllocate(remainingStudents);
+                if (i < year1Students.size()) {
+                    if (pat.load.getValue().equalsIgnoreCase("full")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 9) {
+
+                            String[] studentyear1data = year1Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year1Students.get(i));
+                        }
+                    } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 5) {
+
+                            String[] studentyear1data = year1Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year1Students.get(i));
+                        }
+                    }
+                }
+
+                if (i < year2Students.size()) {
+                    if (pat.load.getValue().equalsIgnoreCase("full")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 9) {
+
+                            String[] studentyear1data = year2Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year2Students.get(i));
+                        }
+                    } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 5) {
+
+                            String[] studentyear1data = year2Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+
+                        } else {
+                            remainingStudents.add(year2Students.get(i));
+                        }
+                    }
+                }
+
+                if (i < year3Students.size()) {
+                    if (pat.load.getValue().equalsIgnoreCase("full")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 9) {
+
+                            String[] studentyear1data = year3Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year3Students.get(i));
+                        }
+                    } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 5) {
+
+                            String[] studentyear1data = year3Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year3Students.get(i));
+                        }
+                    }
+                }
+
+                if (i < year4Students.size()) {
+                    if (pat.load.getValue().equalsIgnoreCase("full")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 9) {
+
+                            String[] studentyear1data = year4Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year4Students.get(i));
+                        }
+                    } else if (pat.load.getValue().equalsIgnoreCase("partial")) {
+
+                        if ((Integer.parseInt(pat.assignedStudents.getValue())) < 5) {
+
+                            String[] studentyear1data = year4Students.get(i).split(",");
+                            String query = "INSERT INTO studentsinformation values(" + '"' + studentyear1data[0] + '"' + "," + '"'
+                                    + studentyear1data[1] + '"' + "," + '"' + studentyear1data[2] + '"'
+                                    + "," + '"' + studentyear1data[3] + '"' + "," + '"' + studentyear1data[4] + '"'
+                                    + "," + '"' + studentyear1data[5] + '"' + "," + '"' + pat.patID.getValue() + '"' + ");";
+
+                            dataBase.executeQuery(query);
+
+                            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+                            assignedStudentsNumber += 1;
+                            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+                            dataBase.updatePATTable(pat.patID.getValue(), String.valueOf(assignedStudentsNumber));
+
+                            String selectedListItem = listItems.get(patId);
+                            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents.getValue();
+                            listItems.set(patId, selectedListItem);
+
+                        } else {
+                            remainingStudents.add(year4Students.get(i));
+                        }
+                    }
+                }
+
+            }
+
+            /**
+             * Here we need to delete all students that have been assigned to
+             * need to refresh the table view and also need to delete the
+             * allocated students data from unallocated students table in the
+             * database.
+             */
+            year1Students.clear();
+            year2Students.clear();
+            year3Students.clear();
+            year4Students.clear();
+            students.clear();
+
+            for (int i = 0; i < remainingStudents.size(); i++) {
+                tokensStudentInformation = remainingStudents.get(i).split(",");
+                students.add(new Student(tokensStudentInformation[0], tokensStudentInformation[1],
+                        tokensStudentInformation[2], tokensStudentInformation[3], tokensStudentInformation[4], tokensStudentInformation[5]));
+            }
+
+            final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
+            tableView.setRoot(root);
+            tableView.setShowRoot(false);
+            deleteUnallocatedStudentsFromDataBase();
+
+            if (confirmMessage("Some Students are remaining do you want to allocate them automatically\nRecommended: Assign them manually.")) {
+                mazeedAutoAllocate();
+            }
         }
     }
 
@@ -677,11 +759,10 @@ public class AssignPAT implements Initializable {
         }
 
         String query = "DELETE FROM unallocatedstudents where uob NOT IN (" + uobs + ");";
-        System.out.println(query);
         dataBase.executeQuery(query);
     }
 
-    public void mazeedAutoAllocate(ArrayList<String> remainingStudents) {
+    public void mazeedAutoAllocate() {
 
         int patSize = pats.size();
         int size = remainingStudents.size();
@@ -701,12 +782,17 @@ public class AssignPAT implements Initializable {
             query = "DELETE FROM unallocatedstudents where uob = " + '"' + studentallyeardata[0] + '"' + ";";
             dataBase.executeQuery(query);
 
+            int assignedStudentsNumber = Integer.parseInt(pat.assignedStudents.getValue());
+            assignedStudentsNumber += 1;
+            pat.assignedStudents.setValue(String.valueOf(assignedStudentsNumber));
+
             String selectedListItem = listItems.get(patId);
-            selectedListItem = pat.patName.getValue() + "   " + pat.assignedStudents;
+            selectedListItem = pat.patName.getValue() + "   " + assignedStudentsNumber;
             listItems.set(patId, selectedListItem);
-            pat.assignedStudents++;
+
         }
 
+        remainingStudents.clear();
         students.clear();
         final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
         tableView.setRoot(root);
@@ -715,10 +801,11 @@ public class AssignPAT implements Initializable {
 
     void delete(int index, int size) {
 
-        for (int i = 0; i < size; i++) {
-            String query = "DELETE FROM unallocatedstudents where uob = " + '"' + students.get(i).studentUOB.getValue() + '"' + ";";
+        for (int i = size - 1; i >= 0; i--) {
+            int indices = selectedIndices.get(i);
+            String query = "DELETE FROM unallocatedstudents where uob = " + '"' + students.get(indices).studentUOB.getValue() + '"' + ";";
             dataBase.executeQuery(query);
-            students.remove(index);
+            students.remove(indices);
         }
         final TreeItem<AssignPAT.Student> root = new RecursiveTreeItem<AssignPAT.Student>(students, RecursiveTreeObject::getChildren);
         tableView.setRoot(root);
@@ -755,10 +842,10 @@ public class AssignPAT implements Initializable {
         StringProperty contactNumber;
         StringProperty dept;
         StringProperty load;
-        int assignedStudents;
+        StringProperty assignedStudents;
 
         public PAT(String patID, String patName, String emailAddress, String officeNumber,
-                String contactNumber, String dept, String load) {
+                String contactNumber, String dept, String load, String assigendStudents) {
 
             this.patID = new SimpleStringProperty(patID);
             this.patName = new SimpleStringProperty(patName);
@@ -767,6 +854,7 @@ public class AssignPAT implements Initializable {
             this.officeNumber = new SimpleStringProperty(officeNumber);
             this.contactNumber = new SimpleStringProperty(contactNumber);
             this.load = new SimpleStringProperty(load);
+            this.assignedStudents = new SimpleStringProperty(assigendStudents);
         }
 
         public String getPatName() {
@@ -777,8 +865,8 @@ public class AssignPAT implements Initializable {
             return patID.toString();
         }
     }
-    
-    public Tab getTab(){
+
+    public Tab getTab() {
         return tab;
     }
 }

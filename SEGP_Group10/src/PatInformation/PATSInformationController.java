@@ -69,10 +69,13 @@ public class PATSInformationController implements Initializable {
     private String[][] patsData;
     private String[][] studentData;
 
+    /**
+     * Getting PATs data from database.
+     */
     public void getPatsData() {
 
         ArrayList<String> patsInformation = dataBase.getTeachersData();
-        patsData = new String[patsInformation.size()][7];
+        patsData = new String[patsInformation.size()][8];
 
         for (int i = 0; i < patsInformation.size(); i++) {
 
@@ -83,6 +86,9 @@ public class PATSInformationController implements Initializable {
         }
     }
 
+    /**
+     * Getting students data from database.
+     */
     public void getStudentsData() {
 
         ArrayList<String> studentsInformation = dataBase.getStudentsData();
@@ -113,27 +119,6 @@ public class PATSInformationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        getPatsData();
-        getStudentsData();
-
-        for (int i = 1; i < patsData.length; i++) {
-
-            final int row = i;
-            final Label nameLabel = new Label(patsData[i][1]);
-            nameLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent e) {
-                    id.setText(patsData[row][0]);
-                    email.setText(patsData[row][2]);
-                    contactNumber.setText(patsData[row][4]);
-                    officeNumber.setText(patsData[row][3]);
-                    dept.setText(patsData[row][5]);
-                    load.setText(patsData[row][6]);
-                }
-            });
-            list.getItems().add(nameLabel);
-        }
 
         loader = new FXMLLoader(getClass().getResource("../PatInformation/EditPatInformation.fxml"));
         try {
@@ -170,6 +155,7 @@ public class PATSInformationController implements Initializable {
         });
 
         anchorPane = PATsInformationEditingController.getAnchorPane();
+        settingPATData();
     }
 
     public boolean validateEditPATInformation(String contactNumber, String officeNumber) {
@@ -188,6 +174,36 @@ public class PATSInformationController implements Initializable {
 
         //need to make regex for phone number
         return true;
+    }
+
+    
+    
+    /**
+     * Making a list of the names of pats and adding listener to them so that
+     * when they are clicked information are meant to be displayed on the screen.
+     */
+    
+    public void settingPATData() {
+
+        getPatsData();
+        getStudentsData();
+        for (int i = 1; i < patsData.length; i++) {
+
+            final int row = i;
+            final Label nameLabel = new Label(patsData[i][1]);
+            nameLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                    id.setText(patsData[row][0]);
+                    email.setText(patsData[row][2]);
+                    contactNumber.setText(patsData[row][4]);
+                    officeNumber.setText(patsData[row][3]);
+                    dept.setText(patsData[row][5]);
+                    load.setText(patsData[row][6]);
+                }
+            });
+            list.getItems().add(nameLabel);
+        }
     }
 
     public Tab getTab() {

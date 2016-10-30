@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,6 +69,7 @@ public class DrawerController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         PATsInformationController = loader.getController();
         tabPATsinformation = PATsInformationController.getTab();
 
@@ -80,6 +82,7 @@ public class DrawerController implements Initializable {
         addPATController = loader.getController();
         tabAddPAT = addPATController.getTab();
 
+        
         loader = new FXMLLoader(getClass().getResource("../AllocatedPAT/AllocatedStudentsView.fxml"));
         try {
             loader.load();
@@ -111,6 +114,7 @@ public class DrawerController implements Initializable {
     @FXML
     public void patButtonOnClicked() {
 
+        PATsInformationController.settingPATData();
         while (!tabPane.getTabs().isEmpty()) {
             tabPane.getTabs().remove(0);
         }
@@ -167,8 +171,8 @@ public class DrawerController implements Initializable {
     public VBox getDrawerPane() {
         return drawerPane;
     }
-    
-        @FXML
+
+    @FXML
     public void settingButtonOnClicked() {
 
         while (!tabPane.getTabs().isEmpty()) {
@@ -179,6 +183,22 @@ public class DrawerController implements Initializable {
 
     public void setTabPane(JFXTabPane tabPane) {
         this.tabPane = tabPane;
+        
+        tabPane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent e) {
+
+              if(tabPane.getSelectionModel().getSelectedItem() == tabPATsinformation){
+//                  PATsInformationController.settingPATData();
+              }else if(tabPane.getSelectionModel().getSelectedItem() == tabAddPAT){
+                  
+              }else if(tabPane.getSelectionModel().getSelectedItem() == tabAllocatedPATs){
+//                  allocatedPATsController.setDataFromDataBase();
+              }
+            }
+        });
+
     }
 
 }
