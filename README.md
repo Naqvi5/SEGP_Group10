@@ -1,3 +1,5 @@
-# SEGP Group
+# SEGP Group 10
 
-This project is build in java and javafx. We used jfoenix library too.
+## Group Member
+
+
