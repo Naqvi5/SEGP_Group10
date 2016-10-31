@@ -16,10 +16,10 @@
                         <Label fx:id="officeNumber" layoutX="400.0" layoutY="250.0" text="0997-8767564" />
                         <Label fx:id="load" layoutX="400.0" layoutY="300.0" text="Full" />
                         <Label fx:id="dept" layoutX="400.0" layoutY="350.0" text="CS" />
-                        <JFXButton fx:id="editButton" layoutX="400.0" layoutY="450.0" prefHeight="26.0" prefWidth="62.0" text="Edit" />
-                        <JFXButton fx:id="deleteButton" layoutX="470.0" layoutY="450.0" text="Delete" />
+                        <JFXButton fx:id="editButton" buttonType="RAISED" layoutX="356.0" layoutY="450.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Edit" AnchorPane.bottomAnchor="20.0" />
+                        <JFXButton fx:id="deleteButton" buttonType="RAISED" layoutX="470.0" layoutY="450.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Delete" AnchorPane.bottomAnchor="20.0" />
                         <Label fx:id="assignedPATs" layoutX="200.0" layoutY="400.0" text="Allocated Students::" />
-                        <JFXButton layoutX="460.0" layoutY="395.0" text="View" />
+                        <JFXButton layoutX="460.0" layoutY="395.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,70%);" text="View" />
       <Label layoutX="200.0" layoutY="100.0" text="ID:" />
       <Label layoutX="400.0" layoutY="100.0" text="Label" />
       <Label fx:id="allocatedStudents" layoutX="400.0" layoutY="400.0" text="Label" />

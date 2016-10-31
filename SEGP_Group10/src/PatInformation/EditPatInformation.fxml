@@ -8,10 +8,10 @@
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PatInformation.PATsInformationEditingController">
        <children>
       <Label layoutX="103.0" layoutY="83.0" text="Contact Number:" AnchorPane.leftAnchor="97.0" />
-      <JFXTextField fx:id="editContactNumber" layoutX="276.0" layoutY="73.0" AnchorPane.leftAnchor="276.0" />
+      <JFXTextField fx:id="editContactNumber" focusColor="#1e3c22" layoutX="276.0" layoutY="73.0" AnchorPane.leftAnchor="276.0" />
       <Label layoutX="97.0" layoutY="128.0" text="Office No" AnchorPane.leftAnchor="97.0" />
-      <JFXTextField fx:id="editOfficeNumber" layoutX="276.0" layoutY="116.0" AnchorPane.leftAnchor="276.0" />
-      <JFXButton fx:id="cancelButton" layoutX="321.0" layoutY="200.0" prefWidth="100.0" text="Cancel" />
-      <JFXButton fx:id="saveChanges" layoutX="441.0" layoutY="200.0" prefHeight="26.0" prefWidth="162.0" text="Save Changes" />
+      <JFXTextField fx:id="editOfficeNumber" focusColor="#1e3c22" layoutX="276.0" layoutY="116.0" AnchorPane.leftAnchor="276.0" />
+      <JFXButton fx:id="cancelButton" buttonType="RAISED" layoutX="321.0" layoutY="200.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Cancel" />
+      <JFXButton fx:id="saveChanges" buttonType="RAISED" layoutX="441.0" layoutY="200.0" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Save Changes" />
        </children>
 </AnchorPane>

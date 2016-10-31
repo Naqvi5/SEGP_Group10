@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import jdk.nashorn.internal.ir.Statement;
+
 
 /**
  *
@@ -19,7 +19,7 @@ import jdk.nashorn.internal.ir.Statement;
  */
 public class DataBase {
 
-    private String database = "project";
+    private String database = "segp";
 
     private String connectionString = "jdbc:mysql://localhost/" + database;
     private Connection con = null;
@@ -32,7 +32,7 @@ public class DataBase {
 
         try {
             con = DriverManager.getConnection(connectionString, "root",
-                    "pakistan");
+                    "badar5822634");
             st = con.createStatement();
 
         } catch (SQLException e1) {

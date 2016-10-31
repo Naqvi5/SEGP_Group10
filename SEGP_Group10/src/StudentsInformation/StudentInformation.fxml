@@ -9,10 +9,10 @@
 
 <AnchorPane fx:id="anchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentsInformation.Studentsinformation">
    <children>
-      <JFXTextField fx:id="searchTextField" labelFloat="true" layoutX="609.0" layoutY="25.0" promptText="Search" />
+      <JFXTextField fx:id="searchTextField" focusColor="#010511" labelFloat="true" layoutX="609.0" layoutY="25.0" promptText="Search" />
       <JFXTreeTableView fx:id="treeTable" layoutX="125.0" layoutY="77.0" prefHeight="478.0" prefWidth="646.0" stylesheets="@Testing.css" />
-      <JFXButton layoutX="544.0" layoutY="560.0" onMouseClicked="#extractPDF" prefWidth="100.0" text="Extract Pdf" />
-      <JFXButton layoutX="670.0" layoutY="560.0" prefWidth="100.0" text="Edit Info" />
+      <JFXButton buttonType="RAISED" layoutX="544.0" layoutY="560.0" onMouseClicked="#extractPDF" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Extract Pdf" />
+      <JFXButton buttonType="RAISED" layoutX="670.0" layoutY="560.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Edit Info" />
       <JFXListView fx:id="listView" layoutX="2.0" layoutY="77.0" prefHeight="478.0" prefWidth="118.0" stylesheets="@patsinfocss.css" />
       <JFXPopup fx:id="popUpYear1" />
       <JFXPopup fx:id="popUpYear2" layoutX="10.0" layoutY="10.0" />

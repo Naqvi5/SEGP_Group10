@@ -16,10 +16,10 @@
             <HBox fx:id="searchBox" alignment="TOP_RIGHT" prefHeight="32.0" prefWidth="603.0" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
-            <HBox alignment="BOTTOM_RIGHT" minHeight="50.0" BorderPane.alignment="CENTER">
+            <HBox alignment="BOTTOM_RIGHT" minHeight="50.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="extractPdfButton" onMouseClicked="#extractPDF" prefWidth="150.0" text="Extract Pdf" />
-                  <JFXButton onMouseClicked="#editInformationClicked" prefWidth="100.0" text="Edit Info" />
+                  <JFXButton fx:id="extractPdfButton" buttonType="RAISED" onMouseClicked="#extractPDF" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Extract Pdf" />
+                  <JFXButton onMouseClicked="#editInformationClicked" prefHeight="30.0" prefWidth="150.0" text="Edit Info" />
                </children>
             </HBox>
          </bottom>

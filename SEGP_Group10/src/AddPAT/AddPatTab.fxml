@@ -8,28 +8,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<Tab fx:id = "addPATTab" text="Add PAT" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddPAT.AddPATController">
+<Tab fx:id="addPATTab" text="Add PAT" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AddPAT.AddPATController">
     <content>
         <BorderPane prefHeight="200.0" prefWidth="200.0">
             <center>
-                <AnchorPane fx:id = "anchorPaneAddPAT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <AnchorPane fx:id="anchorPaneAddPAT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <children>
                         <Label layoutX="96.0" layoutY="81.0" text="Email" AnchorPane.leftAnchor="96.0" />
-                        <JFXTextField layoutX="268.0" layoutY="73.0" promptText="xyz@namal.edu.pk" />
+                        <JFXTextField focusColor="#1e3c22" labelFloat="true" layoutX="268.0" layoutY="73.0" promptText="xyz@namal.edu.pk" />
                         <Label layoutX="97.0" layoutY="132.0" text="Contact" AnchorPane.leftAnchor="96.0" />
-                        <JFXTextField layoutX="268.0" layoutY="124.0" promptText="03123456789" AnchorPane.leftAnchor="268.0" />
+                        <JFXTextField focusColor="#1e3c22" labelFloat="true" layoutX="268.0" layoutY="124.0" promptText="03123456789" AnchorPane.leftAnchor="268.0" />
                         <Label layoutX="97.0" layoutY="192.0" text="Office No" AnchorPane.leftAnchor="96.0" />
-                        <JFXTextField layoutX="268.0" layoutY="184.0" promptText="0459123456" AnchorPane.leftAnchor="268.0" />
+                        <JFXTextField focusColor="#1e3c22" labelFloat="true" layoutX="268.0" layoutY="184.0" promptText="0459123456" AnchorPane.leftAnchor="268.0" />
                         <Label layoutX="97.0" layoutY="252.0" text="Load" AnchorPane.leftAnchor="96.0" />
                         <JFXRadioButton layoutX="268.0" layoutY="260.0" selected="true" text="Full Load" AnchorPane.leftAnchor="268.0" />
                         <JFXRadioButton layoutX="394.0" layoutY="260.0" text="Partial Load" AnchorPane.leftAnchor="394.0" />
                         <Label layoutX="97.0" layoutY="298.0" text="Department" AnchorPane.leftAnchor="96.0" />
                         <JFXRadioButton layoutX="268.0" layoutY="306.0" text="EEE" AnchorPane.leftAnchor="268.0" />
                         <JFXRadioButton layoutX="398.0" layoutY="308.0" selected="true" text="CS" AnchorPane.leftAnchor="394.0" />
-                        <JFXButton layoutX="398.0" layoutY="350.0" prefWidth="100.0" text="Save" />
-                        <JFXButton layoutX="268.0" layoutY="350.0" prefWidth="100.0" text="Cancel" />
+                        <JFXButton buttonType="RAISED" layoutX="398.0" layoutY="350.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Save" />
+                        <JFXButton buttonType="RAISED" layoutX="268.0" layoutY="350.0" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Cancel" />
                         <Label layoutX="96.0" layoutY="37.0" text="Name" AnchorPane.leftAnchor="96.0" />
-                        <JFXTextField labelFloat="true" layoutX="268.0" layoutY="29.0" promptText="Teacher Name" />
+                        <JFXTextField focusColor="#1e3c22" labelFloat="true" layoutX="268.0" layoutY="29.0" promptText="Teacher Name" />
                     </children>
                 </AnchorPane>
             </center>

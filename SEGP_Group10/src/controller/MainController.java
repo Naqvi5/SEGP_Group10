@@ -66,7 +66,7 @@ public class MainController extends Application {
 
                     BorderPane borderPane = mainWindowController.getBorderPane();
 
-                    borderPane.setStyle("-fx-background-image: url(\"/icons/MyBack2.png\");-fx-background-size: 900, 1700;-fx-background-repeat: repeat;");
+                   // borderPane.setStyle("-fx-background-image: url(\"/icons/MyBack2.png\");-fx-background-size: 900, 1700;-fx-background-repeat: repeat;");
                     Scene scene = new Scene(borderPane);
                     scene.getStylesheets().add("/controller/style.css");
                     stage.setScene(scene);
