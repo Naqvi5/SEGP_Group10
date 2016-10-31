@@ -127,7 +127,7 @@ public class AssignPAT implements Initializable {
         });
 
         JFXTreeTableColumn<AssignPAT.Student, String> emailAddress = new JFXTreeTableColumn<>("Email");
-        emailAddress.setPrefWidth(200);
+        emailAddress.setPrefWidth(150);
         emailAddress.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AssignPAT.Student, String>, ObservableValue<String>>() {
 
             @Override
@@ -147,7 +147,7 @@ public class AssignPAT implements Initializable {
         });
 
         JFXTreeTableColumn<AssignPAT.Student, String> personalContact = new JFXTreeTableColumn<>("Personal Contact");
-        personalContact.setPrefWidth(150);
+        personalContact.setPrefWidth(214);
         personalContact.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AssignPAT.Student, String>, ObservableValue<String>>() {
 
             @Override
@@ -157,7 +157,8 @@ public class AssignPAT implements Initializable {
         });
 
         JFXTreeTableColumn<AssignPAT.Student, String> dept = new JFXTreeTableColumn<>("Dept");
-        dept.setPrefWidth(150);
+        dept.setPrefWidth(210);
+        
         dept.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AssignPAT.Student, String>, ObservableValue<String>>() {
 
             @Override
