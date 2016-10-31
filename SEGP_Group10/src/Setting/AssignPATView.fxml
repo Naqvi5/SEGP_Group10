@@ -51,8 +51,8 @@
             <bottom>
                 <HBox alignment="BOTTOM_RIGHT" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton buttonType="RAISED" onMouseClicked="#manualAllocationClicked" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Manually Allocate" />
-                        <JFXButton fx:id="delete" alignment="BOTTOM_RIGHT" buttonType="RAISED" onMouseClicked="#autoAllocatesClicked" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Auot Allocate" />
+                        <JFXButton buttonType="RAISED" onMouseClicked="#manualAllocationClicked" prefHeight="30.0" prefWidth="170.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Manually Allocate" />
+                        <JFXButton fx:id="delete" alignment="BOTTOM_RIGHT" buttonType="RAISED" onMouseClicked="#autoAllocatesClicked" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Auto Allocate" />
                   <JFXButton buttonType="RAISED" onMouseClicked="#deallocateOnClicked" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: derive(#4CAF50,50%);" text="De-allocate" />
                     </children>
                <BorderPane.margin>

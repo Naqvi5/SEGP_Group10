@@ -18,24 +18,25 @@
         <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="78.0" prefWidth="1050.0" style="-fx-background-color: #4CAF50;" BorderPane.alignment="CENTER">
             <children>
                 <JFXHamburger fx:id="hamburger" alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="883.0">
-               <padding>
-                  <Insets left="15.0" />
-               </padding></JFXHamburger>
-            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" />
-            <VBox alignment="CENTER" prefHeight="115.0" prefWidth="162.0">
-               <children>
-                  <ImageView fitHeight="78.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/Finalize.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+                    <padding>
+                        <Insets left="15.0" />
+                    </padding>
+                </JFXHamburger>
+                <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" />
+                <VBox alignment="CENTER" prefHeight="115.0" prefWidth="162.0">
+                    <children>
+                        <ImageView fitHeight="78.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../icons/FinalLogo2.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </VBox>
             </children>
         </HBox>
     </top>
-   <center>
-               <JFXTabPane fx:id = "tabPane" BorderPane.alignment="CENTER" /> 
-   </center>
+    <center>
+        <JFXTabPane fx:id="tabPane" BorderPane.alignment="CENTER" /> 
+    </center>
   
 </BorderPane>

@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class DataBase {
 
-    private String database = "segp";
+    private String database = "project";
 
     private String connectionString = "jdbc:mysql://localhost/" + database;
     private Connection con = null;
@@ -32,7 +32,7 @@ public class DataBase {
 
         try {
             con = DriverManager.getConnection(connectionString, "root",
-                    "badar5822634");
+                    "pakistan");
             st = con.createStatement();
 
         } catch (SQLException e1) {

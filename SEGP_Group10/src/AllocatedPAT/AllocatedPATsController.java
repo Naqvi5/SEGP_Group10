@@ -323,7 +323,7 @@ public class AllocatedPATsController implements Initializable {
             PdfWriter.getInstance(document, new FileOutputStream(selectedDirectory + "/Allocated Students.pdf"));
             document.open();
 
-            Image imageNamalCollege = Image.getInstance("/home/abdul/NetBeansProjects/SEGP Group10/src/AllocatedPAT/Logo5.png");
+            Image imageNamalCollege = Image.getInstance("/home/abdul/NetBeansProjects/SEGP_Group10/src/icons/Logo5_1.png");
             document.add(imageNamalCollege);
 
             for (int i = 0; i < studentsRefrences.length; i++) {
