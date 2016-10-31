@@ -72,8 +72,9 @@ public class AllocatedPATsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-//        nameOfPAT.setFont(Font.font("Verdana", FontWeight.BOLD, 13));
-//        groupNumber.setFont(Font.font("Verdana", FontWeight.BOLD, 13));
+        /**
+         * Making the columns for tree table view and setting them in to the table.
+         */
         studentUOB = new JFXTreeTableColumn<>("UOB");
         studentUOB.setPrefWidth(100);
         studentUOB.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
@@ -137,6 +138,9 @@ public class AllocatedPATsController implements Initializable {
         setDataFromDataBase();
     }
 
+    /**
+     * getting data from data base and setting it in to the arrays.
+     */
     public void setDataFromDataBase() {
 
         studentsInformation = dataBase.getStudentsData();
@@ -155,6 +159,9 @@ public class AllocatedPATsController implements Initializable {
         makeTables();
     }
 
+    /**
+     * this will make the tables to show students information.
+    */
     public void makeTables() {
 
         for (int i = 0; i < studentsRefrences.length; i++) {
@@ -236,6 +243,12 @@ public class AllocatedPATsController implements Initializable {
         }
     }
 
+    /**
+     * 
+     * @param index
+     * @param student 
+     * This methos will fill the data with studnes information
+     */
     public void fillTable(int index, ObservableList<Student> student) {
 
         TreeItem<Student> root = new RecursiveTreeItem<Student>(student, RecursiveTreeObject::getChildren);
@@ -297,6 +310,11 @@ public class AllocatedPATsController implements Initializable {
         }
     }
 
+    /**
+     * 
+     * @param selectedDirectory 
+     * this method will make the pdf tables.
+     */
     public void getTables(String selectedDirectory) {
 
         Document document = new Document();
@@ -305,7 +323,7 @@ public class AllocatedPATsController implements Initializable {
             PdfWriter.getInstance(document, new FileOutputStream(selectedDirectory + "/Allocated Students.pdf"));
             document.open();
 
-            Image imageNamalCollege = Image.getInstance("/home/abdul/Desktop/Logo5.png");
+            Image imageNamalCollege = Image.getInstance("/home/abdul/NetBeansProjects/SEGP Group10/src/AllocatedPAT/Logo5.png");
             document.add(imageNamalCollege);
 
             for (int i = 0; i < studentsRefrences.length; i++) {
@@ -327,6 +345,12 @@ public class AllocatedPATsController implements Initializable {
         }
     }
 
+    /**
+     * 
+     * @param students
+     * @return PDFPTable
+     * this method creates a single pdf table and return to the gettables methos.
+     */
     public PdfPTable getATable(ArrayList<String> students) {
 
         PdfPTable table = new PdfPTable(6);

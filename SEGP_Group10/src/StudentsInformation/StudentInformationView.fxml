@@ -18,8 +18,8 @@
          <bottom>
             <HBox alignment="BOTTOM_RIGHT" minHeight="50.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton fx:id="extractPdfButton" onMouseClicked="#extractPDF" prefWidth="100.0" text="Extract Pdf" />
-                  <JFXButton prefWidth="100.0" text="Edit Info" />
+                  <JFXButton fx:id="extractPdfButton" onMouseClicked="#extractPDF" prefWidth="150.0" text="Extract Pdf" />
+                  <JFXButton onMouseClicked="#editInformationClicked" prefWidth="100.0" text="Edit Info" />
                </children>
             </HBox>
          </bottom>

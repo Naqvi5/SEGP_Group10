@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<Tab fx:id="tab" text="Untitled Tab" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Setting.AssignPAT">
+<Tab fx:id="tab" text="Allocation Process" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Setting.AssignPAT">
     <content>
         <BorderPane prefHeight="200.0" prefWidth="200.0">
             <top>
@@ -50,6 +50,7 @@
                     <children>
                         <JFXButton onMouseClicked="#manualAllocationClicked" text="Manually Allocate" />
                         <JFXButton fx:id="delete" alignment="BOTTOM_RIGHT" onMouseClicked="#autoAllocatesClicked" text="Auot Allocate" />
+                  <JFXButton onMouseClicked="#deallocateOnClicked" text="De-allocate" />
                     </children>
                     <padding>
                         <Insets bottom="10.0" top="10.0" />
@@ -59,8 +60,8 @@
             <center>
                 <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXTextField fx:id="searchTextField" labelFloat="true" promptText="Search" />
-                        <JFXTreeTableView fx:id="tableView" stylesheets="@TreeTableView.css" />
+                        <JFXTextField fx:id="searchTextField" focusColor="#181e32" labelFloat="true" promptText="Search" unFocusColor="BLACK" />
+                        <JFXTreeTableView fx:id="tableView" />
                     </children>
                 </VBox>
             </center>

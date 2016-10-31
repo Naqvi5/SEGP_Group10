@@ -2,22 +2,40 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainWindowController">
-   <right>
-      <JFXDrawer fx:id="drawer" defaultDrawerSize="200.0" direction="RIGHT" prefHeight="500.0" prefWidth="156.0" BorderPane.alignment="CENTER" />
-   </right>
-   <top>
-      <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: #42A5F5;" BorderPane.alignment="CENTER">
-         <children>
-            <JFXHamburger fx:id="hamburger" prefHeight="60.0" prefWidth="88.0" />
-         </children>
-      </HBox>
-   </top>
+    <right>
+        <JFXDrawer fx:id="drawer" defaultDrawerSize="200.0" direction="RIGHT" prefHeight="500.0" prefWidth="156.0" BorderPane.alignment="CENTER" />
+    </right>
+    <top>
+        <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="78.0" prefWidth="1050.0" style="-fx-background-color: #4CAF50;" BorderPane.alignment="CENTER">
+            <children>
+                <JFXHamburger fx:id="hamburger" alignment="CENTER_LEFT" prefHeight="72.0" prefWidth="883.0">
+               <padding>
+                  <Insets left="15.0" />
+               </padding></JFXHamburger>
+            <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" />
+            <VBox alignment="CENTER" prefHeight="115.0" prefWidth="162.0">
+               <children>
+                  <ImageView fitHeight="78.0" fitWidth="97.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icons/Finalize.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            </children>
+        </HBox>
+    </top>
    <center>
-      <JFXTabPane fx:id = "tabPane" BorderPane.alignment="CENTER" />
+               <JFXTabPane fx:id = "tabPane" BorderPane.alignment="CENTER" /> 
    </center>
+  
 </BorderPane>

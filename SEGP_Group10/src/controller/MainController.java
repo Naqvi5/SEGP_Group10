@@ -1,27 +1,22 @@
 package controller;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * *****************************************************************************
+ * To change this license header, choose License Headers in Project Properties.*
+ * To change this template file, choose Tools | Templates * and open the
+ * template in the editor. *
+ * *****************************************************************************
  */
-
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.transitions.hamburger.HamburgerBasicCloseTransition;
-import gui.Studentsinformation;
 import java.io.IOException;
-import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 /**
@@ -30,29 +25,84 @@ import javafx.stage.Stage;
  */
 public class MainController extends Application {
 
-    private MainWindowController mainWindowController;
-    private FXMLLoader loader;
+    private MainWindowController mainWindowController; //controller of main window
+    private FXMLLoader loader; // FXML Loader use for loading the fxml files and getting the controller
+    private LogIn.LogInController logInController; //Controller for login
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        loader = new FXMLLoader(getClass().getResource("../controller/main.fxml"));
-//        loader = new FXMLLoader(getClass().getResource("../gui/Student.fxml"));
+        loader = new FXMLLoader(getClass().getResource("../LogIn/LogIn.fxml"));
+        loader.load();
+        logInController = loader.getController();
+        Scene sceneLogIn = new Scene(logInController.gridPane);
+        sceneLogIn.getStylesheets().add("/controller/style.css");
+        final Stage logInStage = new Stage();
+        logInStage.setScene(sceneLogIn);
+        logInStage.show();
 
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mainWindowController = loader.getController();
-//        gui.Studentsinformation studentsinformation = loader.getController();
+        /**
+         * ***********************************************************
+         * when the login button is clicked call goes to this method.*
+         * ***********************************************************
+         */
+        logInController.loginButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-        BorderPane borderPane = mainWindowController.getBorderPane();
-        Scene scene = new Scene(borderPane);
-//        Scene scene = new Scene(studentsinformation.getBorderPane());
-//        scene.getStylesheets().add("/StudentsInformation/Testing.css");
-        stage.setScene(scene);
-        stage.show();
+            @Override
+            public void handle(MouseEvent e) {
+
+                boolean logIn = logInController.login();
+                if (logIn) {
+
+                    logInStage.close();
+                    loader = new FXMLLoader(getClass().getResource("../controller/main.fxml"));
+
+                    try {
+                        loader.load();
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                    mainWindowController = loader.getController();
+
+                    BorderPane borderPane = mainWindowController.getBorderPane();
+
+                    borderPane.setStyle("-fx-background-image: url(\"/icons/MyBack2.png\");-fx-background-size: 900, 1700;-fx-background-repeat: repeat;");
+                    Scene scene = new Scene(borderPane);
+                    scene.getStylesheets().add("/controller/style.css");
+                    stage.setScene(scene);
+                    stage.show();
+                    mainWindowController.openDrawer();
+
+                    /**
+                     * **********************************************************
+                     * When logout button is clicked call goes to this method.  *
+                     *                                                          *
+                     * **********************************************************
+                     */
+                    mainWindowController.drawerController.logoutBt.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                        @Override
+                        public void handle(MouseEvent event) {
+
+                            stage.close();
+                            logInStage.show();
+                        }
+                    });
+
+                } else {
+
+                    ButtonType ok = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    Alert alert = new Alert(Alert.AlertType.WARNING, null, ok, cancel);
+
+                    alert.setTitle("Warning");
+                    alert.setHeaderText("Look, an Information Dialog");
+                    alert.setContentText("User Name or Password is InCorrect");
+                    alert.showAndWait();
+
+                }
+            }
+        });
     }
 
     /**
