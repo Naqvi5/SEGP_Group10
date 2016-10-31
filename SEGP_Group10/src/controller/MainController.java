@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -52,7 +53,7 @@ public class MainController extends Application {
             public void handle(MouseEvent e) {
 
                 boolean logIn = logInController.login();
-                if (logIn) {
+                if (logIn == true) {
 
                     logInStage.close();
                     loader = new FXMLLoader(getClass().getResource("../controller/main.fxml"));
@@ -65,6 +66,14 @@ public class MainController extends Application {
                     mainWindowController = loader.getController();
 
                     BorderPane borderPane = mainWindowController.getBorderPane();
+                    
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("../controller/DashBoard.fxml"));
+                    } catch (IOException exception) {
+                        exception.printStackTrace();
+                    }
+                    borderPane.setCenter(root);
 
                    // borderPane.setStyle("-fx-background-image: url(\"/icons/MyBack2.png\");-fx-background-size: 900, 1700;-fx-background-repeat: repeat;");
                     Scene scene = new Scene(borderPane);

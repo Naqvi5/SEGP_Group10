@@ -14,14 +14,20 @@
          <center>
             <ScrollPane BorderPane.alignment="CENTER">
                <content>
-                  <VBox fx:id="vBox" spacing="10.0" stylesheets="@TreeTableView.css" />
+                  <VBox fx:id="vBox" alignment="CENTER" spacing="10.0" stylesheets="@TreeTableView.css" />
                </content>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+               <BorderPane.margin>
+                  <Insets left="30.0" />
+               </BorderPane.margin>
             </ScrollPane>
          </center>
          <bottom>
             <HBox alignment="BOTTOM_RIGHT" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton onMouseClicked="#extractPDFOnClicked" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Extract PDF">
+                  <JFXButton onMouseClicked="#extractPDFOnClicked" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: derive(#4CAF50,50%);" text="Extract PDF">
                      <HBox.margin>
                         <Insets bottom="5.0" right="20.0" top="5.0" />
                      </HBox.margin>
@@ -29,6 +35,9 @@
                </children>
             </HBox>
          </bottom>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
       </BorderPane>
    </content>
 </Tab>

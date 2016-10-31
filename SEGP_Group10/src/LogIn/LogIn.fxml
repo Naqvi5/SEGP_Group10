@@ -31,7 +31,7 @@
             <Region prefHeight="200.0" prefWidth="200.0" />
             <ImageView fitHeight="75.0" fitWidth="170.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../Programming/Software%20Examples/SampleMenu/src/buttons/Contacts-50.png" />
+                  <Image url="@../icons/Contacts-50.png" />
                </image>
             </ImageView>
             <Region prefHeight="200.0" prefWidth="200.0" />

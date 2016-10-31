@@ -39,6 +39,7 @@ public class MainWindowController implements Initializable {
 
     protected DrawerController drawerController; // contains the controller of drawer
     private FXMLLoader loader; // use for loading the fxml files.
+    protected HamburgerBasicCloseTransition burgerClose;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,19 +54,19 @@ public class MainWindowController implements Initializable {
         drawerController.setTabPane(tabPane, borderPane);
         drawer.setSidePane(drawerController.getDrawerPane());
 
-        HamburgerBasicCloseTransition burgerClose = new HamburgerBasicCloseTransition(hamburger);
-        burgerClose.setRate(-1);
-        hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
-            burgerClose.setRate(burgerClose.getRate() * -1);
-            burgerClose.play();
-
-            if (drawer.isShown()) {
-                drawer.close();
-            } else {
-                drawer.open();
-            }
-
-        });
+        burgerClose = new HamburgerBasicCloseTransition(hamburger);
+        burgerClose.setRate(1);
+//        hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e) -> {
+//            burgerClose.setRate(burgerClose.getRate() * 1);
+//            burgerClose.play();
+//
+//            if (drawer.isShown()) {
+//                drawer.close();
+//            } else {
+//                drawer.open();
+//            }
+//
+//        });
     }
 
     public BorderPane getBorderPane() {
